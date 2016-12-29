@@ -87,7 +87,7 @@
             </tr>
           </thead>
           <!-- Table TBODY -->
-          <tbody is="exm-tbody" scroll-target="document" id="datatable" multi-selection="[[multiSelection]]" selection-enabled checkbox-used items='[[items]]' selected-items="{{selectedItems}}"> 
+          <tbody is="exm-tbody" id="datatable" multi-selection="[[multiSelection]]" selection-enabled checkbox-used items='[[items]]' selected-items="{{selectedItems}}"> 
               <template id="tbody">
                 <tr class$="[[_computedClass(selected)]]">
                   <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>

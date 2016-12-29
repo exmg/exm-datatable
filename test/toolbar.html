@@ -21,30 +21,19 @@
 
 <script>
 
-  suite('basic features', function() {
-    var table, tbody, container;
+  suite('toolbar', function() {
+    var table, tbody, toolbar, container;
 
     setup(function() {
       container = fixture('trivialTable');
       table = container.$$('table');
       tbody = container.$$('tbody');
+      toolbar = container.$$('exm-toolbar');
     });
 
     test('defaults', function() {
-      assert.equal(tbody.items, null, 'items');
-      assert.equal(tbody.as, 'item', 'as');
-      assert.equal(tbody.indexAs, 'index', 'indexAs');
-      assert.equal(tbody.selectedAs, 'selected', 'selectedAs');
-      assert.isFalse(tbody.selectionEnabled, 'selectionEnabled');
-      assert.isFalse(tbody.multiSelection, 'multiSelection');
-    });
-
-    test('check items length', function(done) {
-      container.data = buildDataSet(100);
-      flush(function() {
-        assert.equal(tbody.items.length, container.data.length);
-        done();
-      });
+      assert.equal(toolbar.selectedItems, null, 'selectedItems');
+     
     });
   });
 </script>

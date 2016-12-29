@@ -17,117 +17,118 @@
 
   <test-fixture id="trivialTable">
     <template>
-      <x-table item-height="10"></x-table>
+      <x-table></x-table>
     </template>
   </test-fixture>
 
   <script>
 
     suite('selection', function() {
-      var table, container;
+      var table, tbody, container;
 
       setup(function() {
         container = fixture('trivialTable');
-        table = container.table;
+        table = container.$$('table');
+        tbody = container.$$('tbody');
       });
 
       test('single selection by item index', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          assert.isNull(table.selectedItem);
+          assert.isNull(tbody.selectedItem);
 
-          table.selectItem(0);
+          tbody.selectItem(0);
 
-          assert.deepEqual(table.selectedItem, table.items[0]);
+          assert.deepEqual(tbody.selectedItem, tbody.items[0]);
 
-          table.deselectItem(0);
+          tbody.deselectItem(0);
 
-          assert.deepEqual(table.selectedItem, null);
+          assert.deepEqual(tbody.selectedItem, null);
 
-          table.selectItem(99);
+          tbody.selectItem(99);
 
-          assert.deepEqual(table.selectedItem, table.items[99]);
+          assert.deepEqual(tbody.selectedItem, tbody.items[99]);
 
           done();
         });
       });
 
       test('single selection by item object', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          assert.isNull(table.selectedItem);
+          assert.isNull(tbody.selectedItem);
 
-          table.selectItem(table.items[50]);
+          tbody.selectItem(tbody.items[50]);
 
-          assert.deepEqual(table.selectedItem, table.items[50]);
+          assert.deepEqual(tbody.selectedItem, tbody.items[50]);
 
           done();
         });
       });
 
       test('multi selection by item index', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          table.multiSelection = true;
+          tbody.multiSelection = true;
 
-          assert.isArray(table.selectedItems);
+          assert.isArray(tbody.selectedItems);
 
-          table.selectItem(0);
-          table.selectItem(50);
-          table.selectItem(99);
+          tbody.selectItem(0);
+          tbody.selectItem(50);
+          tbody.selectItem(99);
 
-          assert.equal(table.selectedItems.length, 3);
-          assert.notEqual(table.selectedItems.indexOf(table.items[0]), -1);
-          assert.notEqual(table.selectedItems.indexOf(table.items[50]), -1);
-          assert.notEqual(table.selectedItems.indexOf(table.items[99]), -1);
-          assert.equal(table.selectedItems.indexOf(table.items[2]), -1);
+          assert.equal(tbody.selectedItems.length, 3);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[0]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[50]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[99]), -1);
+          assert.equal(tbody.selectedItems.indexOf(tbody.items[2]), -1);
 
           done();
         });
       });
 
       test('multi selection by item object', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          table.multiSelection = true;
+          tbody.multiSelection = true;
 
-          assert.isArray(table.selectedItems);
+          assert.isArray(tbody.selectedItems);
 
-          table.selectItem(table.items[0]);
-          table.selectItem(table.items[50]);
-          table.selectItem(table.items[99]);
+          tbody.selectItem(tbody.items[0]);
+          tbody.selectItem(tbody.items[50]);
+          tbody.selectItem(tbody.items[99]);
 
-          assert.equal(table.selectedItems.length, 3);
-          assert.notEqual(table.selectedItems.indexOf(table.items[0]), -1);
-          assert.notEqual(table.selectedItems.indexOf(table.items[50]), -1);
-          assert.notEqual(table.selectedItems.indexOf(table.items[99]), -1);
-          assert.equal(table.selectedItems.indexOf(table.items[2]), -1);
+          assert.equal(tbody.selectedItems.length, 3);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[0]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[50]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[99]), -1);
+          assert.equal(tbody.selectedItems.indexOf(tbody.items[2]), -1);
 
           done();
         });
       });
 
       test('clear selection', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          table.multiSelection = true;
+          tbody.multiSelection = true;
 
-          assert.isArray(table.selectedItems);
+          assert.isArray(tbody.selectedItems);
 
-          table.items.forEach(function(item) {
-             table.selectItem(item);
+          tbody.items.forEach(function(item) {
+             tbody.selectItem(item);
           });
 
-          assert.equal(table.selectedItems.length, table.items.length);
+          assert.equal(tbody.selectedItems.length, tbody.items.length);
 
-          table.clearSelection();
+          tbody.clearSelection();
 
-          assert.equal(table.selectedItems.length, 0);
+          assert.equal(tbody.selectedItems.length, 0);
 
           done();
         });
@@ -135,148 +136,148 @@
 
 
       test('toggle selection by item index', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          table.toggleSelectionForItem(0);
+          tbody.toggleSelectionForItem(0);
 
-          assert.deepEqual(table.selectedItem, table.items[0]);
+          assert.deepEqual(tbody.selectedItem, tbody.items[0]);
 
-          table.toggleSelectionForItem(0);
+          tbody.toggleSelectionForItem(0);
 
-          assert.isNull(table.selectedItem);
+          assert.isNull(tbody.selectedItem);
 
           done();
         });
       });
 
       test('toggle selection by item object', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          table.toggleSelectionForItem(table.items[0]);
+          tbody.toggleSelectionForItem(tbody.items[0]);
 
-          assert.deepEqual(table.selectedItem, table.items[0]);
+          assert.deepEqual(tbody.selectedItem, tbody.items[0]);
 
-          table.toggleSelectionForItem(table.items[0]);
+          tbody.toggleSelectionForItem(tbody.items[0]);
 
-          assert.isNull(table.selectedItem);
+          assert.isNull(tbody.selectedItem);
 
           done();
         });
       });
 
       test('change multi property', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          table.multiSelection = true;
+          tbody.multiSelection = true;
 
-          assert.isArray(table.selectedItems);
+          assert.isArray(tbody.selectedItems);
 
-          table.multiSelection = false;
+          tbody.multiSelection = false;
 
-          assert.isNotArray(table.selectedItems);
-          assert.isNull(table.selectedItems);
+          assert.isNotArray(tbody.selectedItems);
+          assert.isNull(tbody.selectedItems);
 
-          table.multiSelection = true;
+          tbody.multiSelection = true;
 
-          assert.isArray(table.selectedItems);
+          assert.isArray(tbody.selectedItems);
 
           done();
         });
       });
 
       test('selectionEnabled with single selection', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          table.selectionEnabled = true;
+          tbody.selectionEnabled = true;
 
-          assert.isNull(table.selectedItem);
+          assert.isNull(tbody.selectedItem);
 
           // select item[0]
-          MockInteractions.tap(table._physicalItems[0]);
+          MockInteractions.tap(tbody._physicalItems[0]);
 
-          assert.deepEqual(table.selectedItem, table.items[0]);
+          assert.deepEqual(tbody.selectedItem, tbody.items[0]);
 
           // select item[5] and deselect item[0]
-          MockInteractions.tap(table._physicalItems[5]);
+          MockInteractions.tap(tbody._physicalItems[5]);
 
           // select item[1] and deselect item[5]
-          MockInteractions.tap(table._physicalItems[1]);
+          MockInteractions.tap(tbody._physicalItems[1]);
 
-          assert.deepEqual(table.selectedItem, table.items[1]);
+          assert.deepEqual(tbody.selectedItem, tbody.items[1]);
 
           done();
         });
       });
 
       test('selectionEnabled with multiple selection', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
-          table.multiSelection = true;
+          tbody.multiSelection = true;
 
-          MockInteractions.tap(table._physicalItems[0]);
-          assert.equal(table.selectedItems.length, 0);
+          MockInteractions.tap(tbody._physicalItems[0]);
+          assert.equal(tbody.selectedItems.length, 0);
 
           // enable the feature
-          table.selectionEnabled = true;
+          tbody.selectionEnabled = true;
 
           // select item[0]
-          MockInteractions.tap(table._physicalItems[0]);
+          MockInteractions.tap(tbody._physicalItems[0]);
 
-          assert.notEqual(table.selectedItems.indexOf(table.items[0]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[0]), -1);
 
           // multiple selection
-          MockInteractions.tap(table._physicalItems[1]);
-          MockInteractions.tap(table._physicalItems[5]);
-          MockInteractions.tap(table._physicalItems[10]);
-          MockInteractions.tap(table._physicalItems[12]);
+          MockInteractions.tap(tbody._physicalItems[1]);
+          MockInteractions.tap(tbody._physicalItems[5]);
+          MockInteractions.tap(tbody._physicalItems[10]);
+          MockInteractions.tap(tbody._physicalItems[12]);
 
-          table.selectItem(0);
-          table.deselectItem(1);
+          tbody.selectItem(0);
+          tbody.deselectItem(1);
 
-          assert.equal(table.selectedItems.indexOf(table.items[1]), -1);
-          assert.notEqual(table.selectedItems.indexOf(table.items[0]), -1);
-          assert.notEqual(table.selectedItems.indexOf(table.items[5]), -1);
-          assert.notEqual(table.selectedItems.indexOf(table.items[10]), -1);
-          assert.notEqual(table.selectedItems.indexOf(table.items[12]), -1);
+          assert.equal(tbody.selectedItems.indexOf(tbody.items[1]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[0]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[5]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[10]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[12]), -1);
 
-          table.clearSelection();
+          tbody.clearSelection();
 
-          assert.equal(table.selectedItems.length, 0);
+          assert.equal(tbody.selectedItems.length, 0);
 
           // disable the feature
-          table.selectionEnabled = false;
+          tbody.selectionEnabled = false;
 
-          MockInteractions.tap(table._physicalItems[1]);
+          MockInteractions.tap(tbody._physicalItems[1]);
 
-          assert.equal(table.selectedItems.length, 0);
+          assert.equal(tbody.selectedItems.length, 0);
 
           done();
         });
       });
 
     test('toggle', function(done) {
-      table.items = buildDataSet(100);
+      tbody.items = buildDataSet(100);
 
       flush(function() {
-        table.selectionEnabled = true;
+        tbody.selectionEnabled = true;
 
-        MockInteractions.tap(table._physicalItems[0]);
+        MockInteractions.tap(tbody._physicalItems[0]);
 
-        assert.deepEqual(table.selectedItem, table.items[0]);
+        assert.deepEqual(tbody.selectedItem, tbody.items[0]);
 
-        MockInteractions.tap(table._physicalItems[0]);
+        MockInteractions.tap(tbody._physicalItems[0]);
 
-        assert.isNull(table.selectedItem);
+        assert.isNull(tbody.selectedItem);
 
-        MockInteractions.tap(table._physicalItems[0]);
-        table.clearSelection();
+        MockInteractions.tap(tbody._physicalItems[0]);
+        tbody.clearSelection();
 
-        assert.isNull(table.selectedItem);
+        assert.isNull(tbody.selectedItem);
 
         done();
       });
@@ -284,135 +285,136 @@
     });
 
      test('selectedAs', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
           // multi selection
-          table.multiSelection = true;
+          tbody.multiSelection = true;
 
-          assert.isFalse(table._physicalItems[0]._templateInstance.selected);
+          assert.isFalse(tbody._physicalItems[0]._templateInstance.selected);
 
-          table.selectItem(0);
+          tbody.selectItem(0);
 
-          assert.isTrue(table._physicalItems[0]._templateInstance.selected);
+          assert.isTrue(tbody._physicalItems[0]._templateInstance.selected);
 
-          table.toggleSelectionForItem(0);
+          tbody.toggleSelectionForItem(0);
 
-          assert.isFalse(table._physicalItems[0]._templateInstance.selected);
+          assert.isFalse(tbody._physicalItems[0]._templateInstance.selected);
 
           // single selection
-          table.multiSelection = false;
+          tbody.multiSelection = false;
 
-          table.selectItem(0);
-          table.selectItem(10);
+          tbody.selectItem(0);
+          tbody.selectItem(10);
 
-          assert.isFalse(table._physicalItems[0]._templateInstance.selected);
-          assert.isTrue(table._physicalItems[10]._templateInstance.selected);
+          assert.isFalse(tbody._physicalItems[0]._templateInstance.selected);
+          assert.isTrue(tbody._physicalItems[10]._templateInstance.selected);
 
           done();
         });
       });
 
       test('splice a selected item', function(done) {
-        table.items = buildDataSet(100);
+        tbody.items = buildDataSet(100);
 
         flush(function() {
           // multi selection
-          table.multiSelection = true;
+          tbody.multiSelection = true;
 
           // select the first two items
-          table.selectItem(0);
-          table.selectItem(1);
+          tbody.selectItem(0);
+          tbody.selectItem(1);
 
-          assert.equal(table.selectedItems.length, 2);
+          assert.equal(tbody.selectedItems.length, 2);
 
           // remove the first two items
-          table.splice('items', 0, 2);
+          tbody.splice('items', 0, 2);
 
-          assert.equal(table.selectedItems.length, 0);
+          assert.equal(tbody.selectedItems.length, 0);
 
           done();
         });
       });
 
       test('single selection of a primitive type', function() {
-        table.primitive = true;
-        table.items = ['a', 'b', 'c', 'd'];
-        table.selectionEnabled = true;
+        tbody.primitive = true;
+        tbody.items = ['a', 'b', 'c', 'd'];
+        tbody.selectionEnabled = true;
         Polymer.dom.flush();
-        table.selectItem(0);
-        assert.equal(table.selectedItem, 'a', 'single selection 1');
-        table.clearSelection();
-        assert.isNull(table.selectedItem);
-        table.selectItem(2);
-        table.set('items.0', 'z');
-        table.set('items.1', 'y');
-        assert.equal(table.selectedItem, 'c', 'single selection 2');
+        tbody.selectItem(0);
+        assert.equal(tbody.selectedItem, 'a', 'single selection 1');
+        tbody.clearSelection();
+        assert.isNull(tbody.selectedItem);
+        tbody.selectItem(2);
+        tbody.set('items.0', 'z');
+        tbody.set('items.1', 'y');
+        assert.equal(tbody.selectedItem, 'c', 'single selection 2');
       });
 
       test('multi selection of a primitive types', function() {
-        table.primitive = true;
-        table.items = ['a', 'b', 'c', 'd'];
-        table.selectionEnabled = true;
-        table.multiSelection = true;
+        tbody.primitive = true;
+        tbody.items = ['a', 'b', 'c', 'd'];
+        tbody.selectionEnabled = true;
+        tbody.multiSelection = true;
         Polymer.dom.flush();
-        table.selectItem(0);
-        table.selectItem(1);
-        assert.deepEqual(table.selectedItems, ['a', 'b'], 'multiple selection 1');
-        table.clearSelection();
-        assert.equal(table.selectedItems.length, 0, 'multiple selection 2');
+        tbody.selectItem(0);
+        tbody.selectItem(1);
+        assert.deepEqual(tbody.selectedItems, ['a', 'b'], 'multiple selection 1');
+        tbody.clearSelection();
+        assert.equal(tbody.selectedItems.length, 0, 'multiple selection 2');
       });
 
       test('modify primitive item while being selected', function() {
-        table.primitive = true;
-        table.items = ['a', 'b', 'c', 'd'];
-        table.selectionEnabled = true;
+        tbody.primitive = true;
+        tbody.items = ['a', 'b', 'c', 'd'];
+        tbody.selectionEnabled = true;
         Polymer.dom.flush();
-        table.selectItem(0);
-        table.set('items.0', 'z');
-        assert.equal(table.selectedItem, 'z', 'single selection 1');
-        table.selectItem(2);
-        assert.equal(table.selectedItem, 'c', 'single selection 2');
-        table.clearSelection();
-        assert.isNull(table.selectedItem);
+        tbody.selectItem(0);
+        tbody.set('items.0', 'z');
+        assert.equal(tbody.selectedItem, 'z', 'single selection 1');
+        tbody.selectItem(2);
+        assert.equal(tbody.selectedItem, 'c', 'single selection 2');
+        tbody.clearSelection();
+        assert.isNull(tbody.selectedItem);
 
         // test multi selection
-        table.multiSelection = true;
-        table.selectItem(0);
-        table.selectItem(1);
-        assert.deepEqual(table.selectedItems, ['z', 'b'], 'multiple selection 1');
-        table.set('items.1', 'y');
-        assert.deepEqual(table.selectedItems, ['z', 'y'], 'multiple selection 2');
-        table.deselectItem('y');
-        assert.deepEqual(table.selectedItems, ['z'], 'multiple selection 3');
-        table.deselectItem('z');
-        assert.equal(table.selectedItems.length, 0);
+        tbody.multiSelection = true;
+        tbody.selectItem(0);
+        tbody.selectItem(1);
+        assert.deepEqual(tbody.selectedItems, ['z', 'b'], 'multiple selection 1');
+        tbody.set('items.1', 'y');
+        assert.deepEqual(tbody.selectedItems, ['z', 'y'], 'multiple selection 2');
+        tbody.deselectItem('y');
+        assert.deepEqual(tbody.selectedItems, ['z'], 'multiple selection 3');
+        tbody.deselectItem('z');
+        assert.equal(tbody.selectedItems.length, 0);
       });
 
       test('tapping on a focusable child should not change the selection', function() {
-        table.items = buildDataSet(1);
-        table.selectionEnabled = true;
+        tbody.items = buildDataSet(1);
+        tbody.selectionEnabled = true;
         Polymer.dom.flush();
         var node = document.createElement('div');
         node.innerText = 'focusable';
         node.tabIndex = 0;
+        //console.log('teststestetse', getFirstItemFromTable(table));
         Polymer.dom(getFirstItemFromTable(table)).appendChild(node);
         Polymer.dom.flush();
         node.focus();
         MockInteractions.tap(node);
-        assert.isNull(table.selectedItem);
+        assert.isNull(tbody.selectedItem);
       });
 
       test('try to select active element', function() {
         container.useTabIndex = false;
-        table.items = buildDataSet(1);
-        table.selectionEnabled = true;
+        tbody.items = buildDataSet(1);
+        tbody.selectionEnabled = true;
         Polymer.dom.flush();
 
-        var item = table._physicalItems[0];
+        var item = tbody._physicalItems[0];
         item.focus();
         MockInteractions.tap(item);
-        assert.isNotNull(table.selectedItem);
+        assert.isNotNull(tbody.selectedItem);
       });
     });
 

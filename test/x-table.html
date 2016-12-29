@@ -10,7 +10,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../exm-datatable.html">
 <link rel="import" href="../exm-tbody.html">
+<link rel="import" href="../exm-toolbar.html">
 
 <dom-module id="x-table">
   <template>
@@ -38,15 +40,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: black;
       }
     </style>
-
-    <exm-tbody items="[[data]]" as="item" id="table">
-      <template>
-        <tr class="item" tabindex$="[[_computedTabIndex(tabIndex, useTabIndex)]]">
-          <td tabindex="0" hidden$="[[primitive]]">[[item.index]]</td>
-          <td tabindex="0" hidden$="[[!primitive]]">[[item]]</td>
-        </tr>
-      </template>
-    </exm-tbody>
+    <exm-toolbar selected-items="[[selectedItems]]">
+      <div id="default" >
+        <div class="title-container">
+            <span>Toolbar Title</span>
+        </div>
+        <paper-icon-button icon="add" on-tap="_addItem"></paper-icon-button>
+      </div>
+      <div id="selected">
+        <paper-icon-button icon="delete" on-tap="_deleteItems"></paper-icon-button>
+      </div>
+    </exm-toolbar>
+    <table is="exm-datatable">
+      <tbody is="exm-tbody" id="datatable" items='[[data]]' selected-items="{{selectedItems}}"> 
+        <template id="tbody">
+          <tr class="item" tabindex$="[[_computedTabIndex(tabIndex, useTabIndex)]]">
+            <td tabindex="0" hidden$="[[primitive]]">[[item.index]]</td>
+            <td tabindex="0" hidden$="[[!primitive]]">[[item]]</td>
+          </tr>
+        </template>
+      </tbody>
+     </table>
   </template>
 
 </dom-module>
