@@ -1,7 +1,5 @@
-# \<exm-datatable\>
-
-## Status
-[![Build Status](https://travis-ci.org/exmg/exm-datatable.svg?branch=master)](https://travis-ci.org/exmg/exm-datatable)
+exm-datatable [![Build Status](https://travis-ci.org/exmg/exm-datatable.svg?branch=master)](https://travis-ci.org/exmg/exm-datatable)
+================
 
 Paper(Material design) style data table
 Material design datatable. Please visit the [API Documentation and demo](http://exmg.github.io/exm-datatable/) page for more information.
