@@ -102,7 +102,9 @@ Custom property | Description | Default
             </paper-menu>
         </paper-dropdown-menu>
         <span class="page-information">
-            [[_pageInfoStart(pageIndex, pageSize)]]-[[_pageInfoEnd(pageIndex, pageSize, totalItems)]] of [[totalItems]]
+            [[_pageInfoStart(pageIndex, pageSize)]]
+            -
+            [[_pageInfoEnd(pageIndex,pageSize,totalItems)]] of [[totalItems]]
         </span>
         <paper-icon-button icon="icons:chevron-left" on-tap="previousPage" disabled="[[_isFirstPage(pageIndex)]]"></paper-icon-button>
         <paper-icon-button icon="icons:chevron-right" on-tap="nextPage" disabled="[[_isLastPage(pageIndex, pageSize, totalItems)]]"></paper-icon-button>
@@ -150,13 +152,13 @@ Custom property | Description | Default
             return parseInt(_pageSize, 10);
         },
 
-        _pageInfoStart: function() {
-            return this.pageIndex * this.pageSize;
+        _pageInfoStart: function(pageIndex, pageSize) {
+            return pageIndex * pageSize;
         },
 
-        _pageInfoEnd: function() {
-            var end = (this.pageIndex + 1) * this.pageSize;
-            return end < this.totalItems ? end : this.totalItems;
+        _pageInfoEnd: function(pageIndex, pageSize, totalItems) {
+            var end = (pageIndex + 1) * pageSize;
+            return end < totalItems ? end : totalItems;
         },
 
         _isFirstPage: function() {
