@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>exm-datatable basic demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../polymer/polymer.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../paper-card/paper-card.html">
+    <link rel="import" href="../exm-tbody.html">
+    <link rel="import" href="../exm-thead.html">
+    <link rel="import" href="../exm-datatable.html">
+    <link rel="import" href="../data-provider.html">
+
+    <style>
+        body {
+            background: #eee;
+        }
+    </style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+      .table-container {
+        width: 800px;
+        background: white;
+      }
+      table { width: 100%; }
+      table { width: 100%; }
+      h2,
+      .buttons {
+          width: 800px;
+          margin: 20px auto;
+      }
+      paper-card {
+          display: block;
+          width: 800px;
+          margin: auto;
+          --paper-card-background-color: white;
+      }
+    </style>
+  </head>
+  <body unresolved>
+    <template is="dom-bind" id="app" strip-whitespace>
+
+      <h2>Simple Table</h2>
+
+      <paper-card id="table1" elevation="1">
+        <!-- Table Content -->
+        <table is="exm-datatable">
+          <!-- Table THEAD -->
+          <thead is="exm-thead" sorted="{{sorted}}" sort-direction="{{sortDirection}}">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Selected</th>
+            </tr>
+          </thead>
+          <!-- Table TBODY -->
+          <tbody is="exm-tbody" id="datatable" selection-enabled items='[[items]]'> 
+              <template id="tbody">
+                <tr>
+                  <td>[[item.name]]</td>
+                  <td>[[item.email]]</td>
+                  <td>[[selected]]</td>
+                </tr>
+              </template>
+          </tbody>
+        </table>
+      </paper-card>
+
+      <data-provider items="{{items}}" page-index="0" page-size="10"></data-provider>
+    
+    </template>
+  </body>
+</html>

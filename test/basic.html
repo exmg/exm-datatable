@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>exm-datatable test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="helpers.html">
+  <link rel="import" href="x-table.html">
+</head>
+<body>
+
+  <test-fixture id="trivialTable">
+    <template>
+      <x-table></x-table>
+    </template>
+  </test-fixture>
+
+<script>
+
+  suite('basic features', function() {
+    var table, container;
+
+    setup(function() {
+      container = fixture('trivialTable');
+      table = container.table;
+    });
+
+    test('defaults', function() {
+      assert.equal(table.items, null, 'items');
+      assert.equal(table.as, 'item', 'as');
+      assert.equal(table.indexAs, 'index', 'indexAs');
+      assert.equal(table.selectedAs, 'selected', 'selectedAs');
+      assert.isFalse(table.selectionEnabled, 'selectionEnabled');
+      assert.isFalse(table.multiSelection, 'multiSelection');
+    });
+
+    test('check items length', function(done) {
+      container.data = buildDataSet(100);
+
+      flush(function() {
+        assert.equal(table.items.length, container.data.length);
+        done();
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+Material design: Datatables (https://material.io/guidelines/components/data-tables.html)
+
+`exm-datatable` is the base table component that needs to be extended in the table element. 
+
+```html
+<table is="exm-datatable">
+  <tbody is="exm-tbody" selection-enabled items='[[items]]'> 
+    <template id="tbody">
+      <tr>
+        <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>
+        <td>[[index]]</td>
+        <td>[[item.name]]</td>
+        <td>[[item.email]]</td>
+      </tr>
+    </template>
+  </tbody>
+</table>
+```
+
+### Styling
+The following custom properties and mixins are also available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--exm-datatable-background-color` | Background color of table| `Based on the button's color`
+`--exm-datatable-text-color` | Text color of table| `87% black`
+`--exm-datatable` | Mixin applied to the datatable | `{}`
+
+@element exm-datatable
+@demo demo/index.html
+-->
+
+<dom-module id="exm-datatable">
+  <template>
+    <style>
+      :host {
+          border-collapse: collapse;
+          @apply(--paper-font-common-base);  
+          font-size: 13px;
+          background: var(--exm-datatable-background-color, none);
+          color: var(--exm-datatable-text-color, rgba(0,0,0,.87));
+          @apply(--exm-datatable);
+      }
+    </style>
+    <content></content>
+  </template>
+ 
+  <script>
+    Polymer({
+      is: 'exm-datatable',
+      extends: 'table'
+    });
+  </script>
+</dom-module>

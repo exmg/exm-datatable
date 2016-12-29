@@ -1,0 +1,179 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+
+<!--
+Material design: Datatables](https://material.io/guidelines/components/data-tables.html)
+
+`exm-paging` is the paging controll element that can be positioned at the footer of the table. 
+
+```html
+<table is="exm-datatable">
+  <tbody is="exm-tbody" items='[[items]]'> 
+    ...
+  </tbody>
+</table>
+<exm-paging total-items="[[totalItems]]" page-index="{{pageIndex}}" page-size="{{pageSize}}"></exm-paging>
+```
+
+### Styling
+The following custom properties and mixins are also available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--exm-paging-background-color` | Background color | `none`
+`--exm-paging-text-color` | Text color | `87% black`
+`--exm-paging-border-top-divider-color` | Divider color of the top border | `#DBDBDB`
+`--exm-paging` | Mixin applied to host element | `{}`
+`--exm-paging-icon-color` | Text color of table| `54% black`
+`--exm-paging-icon-disabled-color` | Mixin applied to the datatable | `36% black`
+`--exm-paging-page-information` | Mixin applied to page information container | `{}`
+
+@element exm-paging
+@demo demo/index.html
+-->
+
+<dom-module id="exm-paging">
+
+	<style>
+		:host {
+			display: block;
+            @apply(--paper-font-common-base);  
+            background: var(--exm-paging-background-color, none);
+            color: var(--exm-paging-text-color, rgba(0,0,0,.87));
+			font-size: 12px;
+			font-weight: 500;
+            height:56px;
+			padding:0px 6px;
+			border-top: 1px solid var(--exm-paging-border-top-divider-color, --divider-color);
+            @apply(--layout-horizontal);
+            @apply(--layout-end-justified);
+            @apply(--layout-center);  
+            @apply(--exm-paging);   
+		}
+
+        paper-dropdown-menu {
+			--paper-input-container-input: {
+				font-size: 12px;
+				font-weight: 500;
+			};
+			--paper-dropdown-menu: {
+				text-align: right;
+				width: 68px;
+			};
+			--paper-dropdown-menu-icon: {
+				color: var(--exm-paging-icon-color, rgba(0,0,0,.54));
+			};
+			--paper-icon-button: {
+				color: var(--exm-paging-icon-color, rgba(0,0,0,.54));
+			};
+			--paper-icon-button-disabled: {
+				color: var(--exm-paging-icon-disabled-color, rgba(0,0,0,.36));
+			};
+			--paper-input-container-underline-focus: { display: none; };
+			--paper-input-container-underline-disabled: { display: none; };
+			--paper-input-container-underline: { display: none; };
+		}
+
+        paper-icon-button {
+			margin: 0 4px;
+		}
+
+        .page-information {
+			margin: 0 20px 0 32px;
+            @apply(--exm-paging-page-information); 
+		}
+
+	</style>
+
+	<template>
+        <span>Rows per page:</span>
+        <paper-dropdown-menu no-label-float>
+            <paper-menu id="pageSizeDD" class="dropdown-content" selected="{{_pageSize}}" attr-for-selected="value">
+                <paper-item value="5">5</paper-item>
+                <paper-item value="10">10</paper-item>
+                <paper-item value="25">25</paper-item>
+                <paper-item value="50">50</paper-item>
+                <paper-item value="100">100</paper-item>
+            </paper-menu>
+        </paper-dropdown-menu>
+        <span class="page-information">
+            [[_pageInfoStart(pageIndex, pageSize)]]-[[_pageInfoEnd(pageIndex, pageSize, totalItems)]] of [[totalItems]]
+        </span>
+        <paper-icon-button icon="icons:chevron-left" on-tap="previousPage" disabled="[[_isFirstPage(pageIndex)]]"></paper-icon-button>
+        <paper-icon-button icon="icons:chevron-right" on-tap="nextPage" disabled="[[_isLastPage(pageIndex, pageSize, totalItems)]]"></paper-icon-button>
+	</template>
+
+	<script>
+	Polymer({
+		is: 'exm-paging',
+		properties: {
+
+            /**
+            * Total items
+            */
+            totalItems: {
+                type: Number,
+                value: 0
+            },
+
+            /**
+            * This property can be used to change the current visible page
+            */
+            pageIndex: {
+                type: Number,
+                notify: true,
+                value: 0
+            },
+
+            /**
+            * Set the page size of the table. Valid options are 5/10/25/50/100
+            */
+            pageSize: {
+                type: Number,
+                notify: true,
+                computed: '_computePageSize(_pageSize)'
+            },
+
+            _pageSize: {
+                type: String,
+                value: "10"
+            }
+
+		},
+
+        _computePageSize: function(_pageSize) {
+            return parseInt(_pageSize, 10);
+        },
+
+        _pageInfoStart: function() {
+            return this.pageIndex * this.pageSize;
+        },
+
+        _pageInfoEnd: function() {
+            var end = (this.pageIndex + 1) * this.pageSize;
+            return end < this.totalItems ? end : this.totalItems;
+        },
+
+        _isFirstPage: function() {
+            return this.pageIndex < 1;
+        },
+
+        _isLastPage: function() {
+            return ((this.pageIndex + 1) * this.pageSize) > this.totalItems;
+        },
+
+        nextPage: function() {
+            this.pageIndex++;
+        },
+
+        previousPage: function() {
+            this.pageIndex--;
+        }
+	});
+	</script>
+</dom-module>

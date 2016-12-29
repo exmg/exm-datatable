@@ -1,0 +1,178 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+
+<!--
+Material design: Datatables (https://material.io/guidelines/components/data-tables.html)
+
+The thead of the table can be extended with `exm-thead` which adds sorting functionality 
+to the thead table element.
+
+```html
+<table is="exm-datatable">
+  <thead is="exm-thead" sorted="{{sorted}}" sort-direction="{{sortDirection}}">
+    <tr>
+      <th></th>
+      <th sortable="name">Name</th>
+      <th sortable="email">Email</th>
+      <th sortable="city">City</th>
+      <th sortable="country">Country</th>
+    </tr>
+  </thead>
+  <tbody is="exm-tbody" items='[[items]]'> 
+    ...
+  </tbody>
+</table>
+```
+
+### Styling
+The following custom properties and mixins are also available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--exm-thead-color` | font color of thead | `54% black`
+`--exm-thead` | Mixin applied to the thead | `{}`
+`--exm-thead-th` | Mixin applied to the th | `{}`
+`--exm-thead-text-color-hover` | font color of th on hover | `87% black`
+
+@element exm-thead
+@demo demo/index.html
+-->
+
+<dom-module id="exm-thead">
+  <template>
+    <style>
+      :host {
+        font-weight: 500;
+        border-bottom: 1px solid var(--divider-color);
+				user-select: none;
+        font-size: 12px;
+        color: var(--exm-thead-color, rgba(0,0,0,.54));
+        @apply(--paper-font-common-base);
+        @apply(--exm-thead);
+      }
+
+      :host ::content th {
+       	height: 48px;
+        line-height: 36px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        padding: 6px 6px 6px 24px;
+        overflow:hidden;
+        text-align: left;
+        @apply(--exm-thead-th);
+      }
+
+      :host ::content th[sortable]:hover,
+      :host ::content th[sorted]{
+         padding-left:0px;
+      }
+
+      :host ::content th[sortable]:hover{
+        cursor: pointer;
+        color: var(--exm-thead-text-color-hover, rgba(0,0,0, .87));
+      }
+
+      :host ::content th[sortable]:hover::before {
+        display: block;
+        content: "";
+        background-image: url('arrow-downward.svg');
+        background-size: 12px 12px;
+        height: 12px;
+        width: 12px;
+        float: left;
+        margin: 12px 6px;
+      }
+
+      :host ::content th[sorted]::before {
+        display: block;
+        content: "";
+        background-image: url('arrow-downward.svg');
+        background-size: 12px 12px;
+        height: 12px;
+        width: 12px;
+        float: left;
+        margin: 12px 6px;
+        transition: transform .1s linear;
+        transform: rotate(0deg);
+      }
+
+      :host[sort-direction="DESC"] ::content th[sorted]::before {
+        transform: rotate(180deg);
+      }
+
+    </style>
+    <content></content>
+  </template>
+ 
+  <script>
+
+    Polymer({
+      is: 'exm-thead',
+      extends: 'thead',
+      properties: {
+        /**
+        * An string containing the column sort key
+        */
+        sorted: {
+          type: String,
+          notify: true
+        },
+        /**
+        * An string containing 'ASC' or 'DESC' to indicate the sorting direction
+        */
+        sortDirection: {
+          type: String,
+          notify: true,
+          reflectToAttribute: true,
+          value: 'ASC'
+        }
+      },
+      listeners: {
+				'tap': '_handleTap',
+      },
+      observers: [
+        '_sortedByChanged(sorted)'
+      ],
+      /* 
+      * Triggered on column change when sorting
+      */
+      _sortedByChanged: function(sorted) {
+        var headerColumns = Polymer.dom(this).querySelectorAll('th');
+        this._resetOldSorting();
+        headerColumns.forEach(function(el) {
+          if(el.getAttribute('sortable') === sorted) {
+            el.setAttribute('sorted','');
+            this.set('sortDirection', 'ASC');
+          }
+        }.bind(this));
+      },
+      /* 
+      * Handle column header tap
+      */
+      _handleTap: function(e) {
+        var path = Polymer.dom(e).path;
+        var sortField = path[0].getAttribute("sortable");
+        if(path[0].tagName === 'TH' && sortField){
+          if(this.sorted === sortField){
+            this.set('sortDirection', this.sortDirection === 'ASC' ? 'DESC' : 'ASC');
+          } else {
+            this._resetOldSorting();
+            this.set('sorted', sortField);  
+          }
+        }
+      },
+      /* 
+      * Reset old column sorting attributes
+      */
+      _resetOldSorting: function(tr) {
+        var rowChildren = Polymer.dom(this).querySelectorAll('th[sorted]');
+        rowChildren.forEach(function(el) {
+          el.removeAttribute('sorted');
+        });
+      }
+     
+    });
+
+  </script>
+</dom-module>
