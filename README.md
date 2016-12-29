@@ -1,6 +1,7 @@
 # \<exm-datatable\>
 
 Paper(Material design) style data table
+Material design datatable. Please visit the [API Documentation and demo](http://exmg.github.io/exm-datatable/) page for more information.
 
 ## Install the Polymer-CLI
 
