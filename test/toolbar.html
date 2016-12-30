@@ -22,19 +22,95 @@
 <script>
 
   suite('toolbar', function() {
-    var table, tbody, toolbar, container;
+    var tbody, toolbar, container;
 
     setup(function() {
       container = fixture('trivialTable');
-      table = container.$$('table');
       tbody = container.$$('tbody');
       toolbar = container.$$('exm-toolbar');
     });
 
     test('defaults', function() {
       assert.equal(toolbar.selectedItems, null, 'selectedItems');
-     
     });
+
+    test('single selection by item index through tbody', function(done) {
+      tbody.items = buildDataSet(1);
+
+      flush(function() {
+        assert.isNull(toolbar.selectedItems);
+
+        tbody.selectItem(0);
+
+        assert.deepEqual(toolbar.selectedItems, tbody.items[0]);
+
+        tbody.deselectItem(0);
+
+        assert.deepEqual(toolbar.selectedItems, null);
+
+        done();
+      });
+    });
+
+    test('on row select toolbar selected state visualized', function(done) {
+        tbody.items = buildDataSet(1);
+
+        flush(function() {
+
+          var selectedToolbar;
+
+          tbody.selectItem(0);
+
+          selectedToolbar = Polymer.dom(toolbar.root).querySelectorAll('#selected-toolbar[data-visible]');
+
+          assert.equal(selectedToolbar.length, 1);
+
+          tbody.deselectItem(0);
+
+          selectedToolbar = Polymer.dom(toolbar.root).querySelectorAll('#selected-toolbar[data-visible]');
+
+          assert.equal(selectedToolbar.length, 0);
+
+          done();
+        });
+      });
+
+      test('copy correct on row select', function(done) {
+        tbody.items = buildDataSet(5);
+
+        flush(function() {
+
+          var toolbarTitle;
+
+          tbody.selectItem(0);
+
+          toolbarTitle = Polymer.dom(toolbar.root).querySelector('.title-container > span');
+
+          assert.equal(toolbarTitle.innerHTML, '1');
+
+          done();
+        });
+      });
+
+      test('copy correct on multiple row select', function(done) {
+        tbody.items = buildDataSet(5);
+
+        flush(function() {
+
+          var toolbarTitle;
+
+          tbody.multiSelection = true;
+          tbody.selectItem(0);
+          tbody.selectItem(2);
+          tbody.selectItem(3);
+
+          toolbarTitle = Polymer.dom(toolbar.root).querySelector('.title-container > span');
+
+          assert.equal(toolbarTitle.innerHTML, '3');
+
+          done();
+        });
+      });
   });
 </script>
 

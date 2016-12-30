@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>exm-datatable test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../iron-test-helpers/mock-interactions.js"></script>
+
+  <link rel="import" href="helpers.html">
+  <link rel="import" href="x-table.html">
+</head>
+<body>
+
+  <test-fixture id="trivialTable">
+    <template>
+      <x-table></x-table>
+    </template>
+  </test-fixture>
+
+<script>
+
+  suite('thead', function() {
+    var thead, container;
+
+    setup(function() {
+      container = fixture('trivialTable');
+      thead = container.$$('thead');
+    });
+
+    test('defaults', function() {
+      assert.equal(thead.sorted, null, 'sorted');
+      assert.equal(thead.sortDirection, 'ASC', 'sortDirection');
+    });
+
+    // test('change sort direction', function(done) {
+
+    //   flush(function() {
+      
+    //     var th = Polymer.dom(thead.root).querySelector('th');
+
+    //     console.log('thead.root', getFirstItemFromTable(tbody));
+
+    //     MockInteractions.tap(th);
+
+    //     assert.equal(thead.sortDirection, 'DESC');
+
+    //     done();
+    //   });
+    // });
+
+  });
+</script>
+
+</body>
+</html>
