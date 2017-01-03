@@ -1,7 +1,7 @@
 {
   "name": "exm-datatable",
-  "version": "0.9.2",
-  "description": "Material design data table",
+  "version": "0.9.3",
+  "description": "Material design data table (Polymer)",
   "authors": [
     "Mark Smits"
   ],
@@ -18,7 +18,11 @@
     "exm-toolbar.html",
     "exm-paging.html"
   ],
-  "private": true,
+  "homepage": "http://exmg.github.io/exm-datatable/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/exmg/exm-datatable.git"
+  },
   "ignore": [],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
