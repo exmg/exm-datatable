@@ -14,9 +14,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!--
 Material design: Datatables (https://material.io/guidelines/components/data-tables.html)
 
-`exm-tbody` has some extra functionality that can be extended in the tbody table element which 
-will visualise the table as a material design data table. It also facilitates rows selection 
-and templating fucntionality. 
+`exm-tbody` has some extra functionality that can be extended in the tbody table element which
+will visualise the table as a material design data table. It also facilitates rows selection
+and templating fucntionality.
 
 ### Template model
 List item templates should bind to template models of the following structure:
@@ -44,7 +44,7 @@ The following code would render the table:
 <template is="dom-bind">
   <iron-ajax url="data.json" last-response="{{items}}" auto></iron-ajax>
   <table is="exm-datatable">
-    <tbody is="exm-tbody" items='[[items]]'> 
+    <tbody is="exm-tbody" items='[[items]]'>
       <template>
         <tr>
           <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>
@@ -100,7 +100,7 @@ Custom property | Description | Default
 			  border-bottom:none;
 		  }
 
-      :host[checkbox-used] ::content tr:not(.expandable) td:first-of-type, 
+      :host[checkbox-used] ::content tr:not(.expandable) td:first-of-type,
       :host[checkbox-used] ::content tr:not(.expandable) th:first-of-type{
         padding-left: 24px;
         padding-right: 0px;
@@ -113,7 +113,7 @@ Custom property | Description | Default
 
     <!-- Array helper -->
     <array-selector id="selector" items="{{items}}" selected="{{selectedItems}}" selected-item="{{selectedItem}}"></array-selector>
-  
+
   </template>
 
   <script>
@@ -364,7 +364,8 @@ Custom property | Description | Default
       _itemsChanged: function(change) {
         //console.log('_itemsChanged', change, this.items);
         if (change.path === 'items') {
-          this._collection = this.items ? Polymer.Collection.get(this.items) : null;      
+          this.items = this.items || [];
+          this._collection = this.items ? Polymer.Collection.get(this.items) : null;
           this._physicalCount = this._physicalCount || 0;
           this._physicalItems = this._physicalItems || [];
           this._debounceTemplate(this._render);
