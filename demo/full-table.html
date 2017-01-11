@@ -41,7 +41,10 @@
           @apply(--paper-font-common-base);
           font-family: sans-serif;
         }
-        table { width: 100%; }
+        table {
+          table-layout: fixed;
+          width: 100%;
+        }
         h2,
         .buttons {
             width: 800px;
@@ -49,16 +52,15 @@
         }
         paper-card {
             display: block;
-            width: 800px;
+            max-width: 800px;
             margin: auto;
             --paper-card-background-color: white;
         }
-
         .item.selected {
           background-color: #F5F5F5;
         }
       </style>
-    
+
       <h2>Full Table</h2>
 
       <paper-card id="table1" elevation="1">
@@ -76,6 +78,13 @@
         </exm-toolbar>
         <!-- Table Content -->
         <table is="exm-datatable">
+          <colgroup>
+            <col style="width:50px;">
+            <col style="width:50%;">
+            <col style="width:50%;">
+            <col style="width:140px;">
+            <col style="width:140px;">
+          </colgroup>
           <!-- Table THEAD -->
           <thead is="exm-thead" sorted="{{sorted}}" sort-direction="{{sortDirection}}">
             <tr>
@@ -87,7 +96,7 @@
             </tr>
           </thead>
           <!-- Table TBODY -->
-          <tbody is="exm-tbody" id="datatable" multi-selection="[[multiSelection]]" selection-enabled checkbox-used items='[[items]]' selected-items="{{selectedItems}}"> 
+          <tbody is="exm-tbody" id="datatable" multi-selection="[[multiSelection]]" selection-enabled checkbox-used items='[[items]]' selected-items="{{selectedItems}}">
               <template id="tbody">
                 <tr class$="[[_computedClass(selected)]]">
                   <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>
@@ -104,14 +113,14 @@
       </paper-card>
 
       <data-provider id="dataProvider" total-items="{{totalItems}}" items="{{items}}" page-index="[[pageIndex]]" page-size="[[pageSize]]" sorted="[[sorted]]" sort-direction="[[sortDirection]]"></data-provider>
-   
+
       <div class="buttons">
         <paper-toggle-button checked="{{multiSelection}}">Multi Selection</paper-toggle-button>
       </div>
     </template>
 
     <script>
-    
+
       HTMLImports.whenReady(function() {
 
           Polymer({
@@ -135,7 +144,7 @@
             _deleteItems: function() {
               var itemsToDelete =  Array.isArray(this.selectedItems) ? this.selectedItems : [this.selectedItems];
               for(var i = 0; i < itemsToDelete.length; i++) {
-                 this.$.dataProvider.deleteItem(itemsToDelete[i]); 
+                 this.$.dataProvider.deleteItem(itemsToDelete[i]);
               }
             }
           });
