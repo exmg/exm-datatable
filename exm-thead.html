@@ -4,7 +4,7 @@
 <!--
 Material design: Datatables (https://material.io/guidelines/components/data-tables.html)
 
-The thead of the table can be extended with `exm-thead` which adds sorting functionality 
+The thead of the table can be extended with `exm-thead` which adds sorting functionality
 to the thead table element.
 
 ```html
@@ -18,7 +18,7 @@ to the thead table element.
       <th sortable="country">Country</th>
     </tr>
   </thead>
-  <tbody is="exm-tbody" items='[[items]]'> 
+  <tbody is="exm-tbody" items='[[items]]'>
     ...
   </tbody>
 </table>
@@ -82,6 +82,7 @@ Custom property | Description | Default
         width: 12px;
         float: left;
         margin: 12px 6px;
+        @apply(--exm-thead-th-icon-sortable-hover);
       }
 
       :host ::content th[sorted]::before {
@@ -95,6 +96,7 @@ Custom property | Description | Default
         margin: 12px 6px;
         transition: transform .1s linear;
         transform: rotate(0deg);
+        @apply(--exm-thead-th-icon-sorted);
       }
 
       :host[sort-direction="DESC"] ::content th[sorted]::before {
@@ -104,7 +106,7 @@ Custom property | Description | Default
     </style>
     <content></content>
   </template>
- 
+
   <script>
 
     Polymer({
@@ -134,7 +136,7 @@ Custom property | Description | Default
       observers: [
         '_sortedByChanged(sorted)'
       ],
-      /* 
+      /*
       * Triggered on column change when sorting
       */
       _sortedByChanged: function(sorted) {
@@ -147,7 +149,7 @@ Custom property | Description | Default
           }
         }.bind(this));
       },
-      /* 
+      /*
       * Handle column header tap
       */
       _handleTap: function(e) {
@@ -158,11 +160,11 @@ Custom property | Description | Default
             this.set('sortDirection', this.sortDirection === 'ASC' ? 'DESC' : 'ASC');
           } else {
             this._resetOldSorting();
-            this.set('sorted', sortField);  
+            this.set('sorted', sortField);
           }
         }
       },
-      /* 
+      /*
       * Reset old column sorting attributes
       */
       _resetOldSorting: function(tr) {
@@ -171,7 +173,7 @@ Custom property | Description | Default
           el.removeAttribute('sorted');
         });
       }
-     
+
     });
 
   </script>
