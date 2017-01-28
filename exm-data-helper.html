@@ -1,23 +1,25 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-ajax/iron-ajax.html">
 
-<dom-module id="data-provider">
-	<template>
-		<style></style>
-		<iron-ajax url="demo/data/contacts.json" last-response="{{_rawItems}}" auto></iron-ajax>
-	</template>
-
+<dom-module id="exm-data-helper">
+	<template></template>
 	<script>
 	Polymer({
-		is: 'data-provider',
+		is: 'exm-data-helper',
 		properties: {
 
 			/**
-			* Set the header title of the table
-			*/
-			itemsToGenerate: {
-				type: Number,
-				value: 24
+			 * Raw item list 
+			 */
+			rawItems: {
+				type: Array
+			},
+
+			/**
+			 * filtered and or sorted items 
+			 */
+			items: {
+				type: Array,
+                notify: true
 			},
 
 			/**
@@ -26,17 +28,9 @@
 			totalItems: {
 				notify: true,
 				type: Number,
-				computed: '_computeLength(_rawItems.*)'
+				computed: '_computeLength(rawItems.*)'
 			},
-
-			/**
-			 * dummy items 
-			 */
-			items: {
-				type: Array,
-                notify: true
-			},
-
+			
 			/**
             * This property can be used to change the current visible items page
             */
@@ -54,13 +48,6 @@
             },
 
 			/**
-			 * dummy items unpaged list 
-			 */
-			_rawItems: {
-				type: Array,
-			},
-
-			/**
 			* An string containing the column sort key
 			*/
 			sorted: String,
@@ -73,33 +60,26 @@
 		},
         observers: [
 			'_sortChanged(sorted,sortDirection)',
-            '_ramItemsChanged(_rawItems)',
-			'_pageChanged(pageIndex, pageSize, itemsToGenerate)'
+            '_ramItemsChanged(rawItems.*)',
+			'_pageChanged(pageIndex, pageSize)'
         ],
 		doSort: false,
-		addItem: function() {
-			this.push('_rawItems', {"name":"Mark","email": "mark@test.com"});
-		},
-		deleteItem: function(item) {
-			this.splice('_rawItems', this._rawItems.indexOf(item), 1);
-			this._updatePage();
-		},
 		_sortChanged: function(sorted, sortDirection) {
 			this.doSort = true;
 			this._updatePage();
 		},	
-		_computeLength: function(_rawItems) {
-			return this._rawItems.length;
+		_computeLength: function(rawItems) {
+			return this.rawItems.length;
 		},
-        _ramItemsChanged: function(_rawItems) {
-		   this._updatePage();
+        _ramItemsChanged: function() {
+			this._updatePage();
         },
 		_pageChanged: function(pageIndex, pageSize) {
 			this._updatePage();
 		},
 		_updatePage: function() {
 
-			if(this._rawItems === undefined) {
+			if(this.rawItems === undefined) {
 				return;
 			}
 			var start = (this.pageIndex * this.pageSize);
@@ -113,7 +93,7 @@
 					return lookupItemByPath(item[parts[0]], parts.slice(1).join("."));
 				};
 			
-				this._rawItems.sort(function(a, b) {
+				this.rawItems.sort(function(a, b) {
 					var fieldA = lookupItemByPath(a, this.sorted);
 					var fieldB = lookupItemByPath(b, this.sorted);
 					if(typeof fieldA === 'number' || typeof fieldA === 'boolean') {
@@ -136,8 +116,8 @@
 
 			this.set('items', []);
 			for(var i = start; i < start + this.pageSize; i++) {
-				if(this._rawItems[i] !== undefined) {
-					this.push('items', this._rawItems[i]);
+				if(this.rawItems[i] !== undefined) {
+					this.push('items', this.rawItems[i]);
 				}
 			}
 		}

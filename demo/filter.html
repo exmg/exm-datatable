@@ -2,7 +2,7 @@
 <html>
 <head>
 
-    <title>Full Table</title>
+    <title>Filter Table</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
@@ -16,13 +16,17 @@
     <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
     <link rel="import" href="../../paper-card/paper-card.html">
     <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+    <link rel="import" href="../../iron-input/iron-input.html">
     <link rel="import" href="../../iron-ajax/iron-ajax.html">
+    <link rel="import" href="../../iron-icon/iron-icon.html">
+    <link rel="import" href="../../iron-icons/iron-icons.html">
     <link rel="import" href="../exm-toolbar.html">
     <link rel="import" href="../exm-datatable.html">
     <link rel="import" href="../exm-thead.html">
     <link rel="import" href="../exm-tbody.html">
     <link rel="import" href="../exm-paging.html">
     <link rel="import" href="../exm-data-helper.html">
+    <link rel="import" href="../exm-data-filter.html">
 
     <style>
         body {
@@ -60,17 +64,33 @@
         .item.selected {
           background-color: #F5F5F5;
         }
+        iron-icon {
+            margin: 0 8px 0 0;
+        }
+        input {
+            width: 100%;
+            margin: 0 20px;
+            border-width: 0px;
+            padding: 5px;
+            border-bottom: 1px solid #dbdbdb;
+            font-size: 14px;
+        }
+        input:focus {
+            outline-color: transparent;
+            outline-style: none;
+            background: #f5f5f5;
+            border-width: 0px;
+        }
       </style>
 
-      <h2>Full Table</h2>
+      <h2>Filter Table</h2>
 
       <paper-card id="table1" elevation="1">
         <!-- Table Toobar -->
         <exm-toolbar selected-items="[[selectedItems]]">
           <div id="default" >
-            <div class="title-container">
-                <span>Admin Users</span>
-            </div>
+            <iron-icon icon="search"></iron-icon>
+            <input is="iron-input" bind-value="{{filterValue}}">
             <paper-icon-button icon="add" on-tap="_addItem"></paper-icon-button>
           </div>
           <div id="selected">
@@ -115,9 +135,12 @@
 
       <!-- Load contacts from json file  -->
       <iron-ajax url="data/contacts.json" last-response="{{rawItems}}" auto></iron-ajax>
-
+     
+      <!-- Filter items by filter value and return resulting items to the data provider  -->
+      <exm-data-filter raw-items="[[rawItems]]" items="{{filteredItems}}" filter-value="[[filterValue]]" filter-fields="name,email"></exm-data-filter>
+     
       <!-- Manage sorting and paging  -->
-      <exm-data-helper id="dataProvider" raw-items="[[rawItems]]" items="{{items}}" page-index="[[pageIndex]]" page-size="[[pageSize]]" sorted="[[sorted]]" sort-direction="[[sortDirection]]" total-items="{{totalItems}}"></exm-data-helper>
+      <exm-data-helper id="dataProvider" raw-items="[[filteredItems]]" items="{{items}}" page-index="[[pageIndex]]" page-size="[[pageSize]]" sorted="[[sorted]]" sort-direction="[[sortDirection]]" total-items="{{totalItems}}"></exm-data-helper>
 
       <div class="buttons">
         <paper-toggle-button checked="{{multiSelection}}">Multi Selection</paper-toggle-button>

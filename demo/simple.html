@@ -4,24 +4,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>exm-datatable basic demo</title>
+    <title>exm-datatable simple demo</title>
 
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
     <link rel="import" href="../../polymer/polymer.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
     <link rel="import" href="../../paper-card/paper-card.html">
+    <link rel="import" href="../../iron-ajax/iron-ajax.html">
     <link rel="import" href="../exm-tbody.html">
     <link rel="import" href="../exm-thead.html">
     <link rel="import" href="../exm-datatable.html">
-    <link rel="import" href="../data-provider.html">
+    <link rel="import" href="../exm-data-helper.html">
 
-    <style>
-        body {
-            background: #eee;
-        }
-    </style>
     <style is="custom-style" include="demo-pages-shared-styles">
+      body {
+        background: #eee;
+      }
       .table-container {
         width: 800px;
         background: white;
@@ -70,7 +69,11 @@
         </table>
       </paper-card>
 
-      <data-provider items="{{items}}" page-index="0" page-size="10"></data-provider>
+      <!-- Load contacts from json file  -->
+      <iron-ajax url="data/contacts.json" last-response="{{rawItems}}" auto></iron-ajax>
+ 
+      <!-- Display first page from data set  -->
+      <exm-data-helper raw-items="[[rawItems]]" items="{{items}}" page-index="0" page-size="10"></exm-data-helper>
     
     </template>
   </body>
