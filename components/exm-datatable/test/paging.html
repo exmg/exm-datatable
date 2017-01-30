@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>exm-datatable test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="helpers.html">
+  <link rel="import" href="x-table.html">
+</head>
+<body>
+
+  <test-fixture id="trivialTable">
+    <template>
+      <x-table></x-table>
+    </template>
+  </test-fixture>
+
+<script>
+
+  suite('paging', function() {
+    var tbody, paging, container;
+
+    setup(function() {
+      container = fixture('trivialTable');
+      tbody = container.$$('tbody');
+      paging = container.$$('exm-paging');
+    });
+
+    test('defaults', function() {
+      assert.equal(paging.totalItems, 0, 'totalItems');
+      assert.equal(paging.pageIndex, 0, 'pageIndex');
+      assert.equal(paging.pageSize, 10, 'pageSize');
+    });
+
+    test('change page size', function(done) {
+        tbody.items = buildDataSet(30);
+
+        flush(function() {
+        
+          paging._pageSize = 25;
+        
+          var menu = Polymer.dom(paging.root).querySelector('.dropdown-content');
+
+          assert.equal(menu.selected, 25);
+
+          done();
+        });
+      });
+
+  });
+</script>
+
+</body>
+</html>

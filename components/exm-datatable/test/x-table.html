@@ -1,0 +1,97 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
+The complete set of authors may be found at http://polymer.github.io/AUTHORS
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
+-->
+
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../exm-datatable.html">
+<link rel="import" href="../exm-tbody.html">
+<link rel="import" href="../exm-thead.html">
+<link rel="import" href="../exm-toolbar.html">
+<link rel="import" href="../exm-paging.html">
+
+<dom-module id="x-table">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-fit);
+        @apply(--layout-vertical);
+
+        display: block;
+      }
+
+      tr {
+        color: white;
+      }
+
+      tr:nth-child(odd) {
+        background-color: green;
+      }
+
+      tr:nth-child(even) {
+        background-color: red;
+      }
+
+      exm-tbody {
+        background-color: black;
+      }
+    </style>
+    <exm-toolbar selected-items="[[selectedItems]]">
+      <div id="default" >
+        <div class="title-container">
+            <span>Toolbar Title</span>
+        </div>
+        <paper-icon-button icon="add" on-tap="_addItem"></paper-icon-button>
+      </div>
+      <div id="selected">
+        <paper-icon-button icon="delete" on-tap="_deleteItems"></paper-icon-button>
+      </div>
+    </exm-toolbar>
+    <table is="exm-datatable">
+      <thead is="exm-thead">
+        <tr>
+          <th sortable="index">#</th>
+          <th sortable="name">Name</th>
+        </tr>
+      </thead>
+      <tbody is="exm-tbody" id="datatable" items='[[data]]' selected-items="{{selectedItems}}"> 
+        <template id="tbody">
+          <tr>
+            <td>[[item.index]]</td>
+            <td>[[item.name]]</td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+    <exm-paging total-items="[[totalItems]]" page-index="{{pageIndex}}" page-size="{{pageSize}}"></exm-paging>
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'x-table',
+
+    properties: {
+      data: {
+        type: Array
+      },
+
+      totalItems: {
+        type: Number,
+        notify: true,
+        computed: '_computeTotalItems(data)'
+      }
+    },
+
+    _computeTotalItems: function(data) {
+      return data ? data.length : 0;
+    }
+  });
+</script>

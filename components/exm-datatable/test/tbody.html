@@ -1,0 +1,426 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>exm-tbody test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../iron-test-helpers/mock-interactions.js"></script>
+
+  <link rel="import" href="helpers.html">
+  <link rel="import" href="x-table.html">
+
+</head>
+<body>
+
+  <test-fixture id="trivialTable">
+    <template>
+      <x-table></x-table>
+    </template>
+  </test-fixture>
+
+  <script>
+
+    suite('tbody', function() {
+      var table, tbody, container;
+
+      setup(function() {
+        container = fixture('trivialTable');
+        table = container.$$('table');
+        tbody = container.$$('tbody');
+      });
+
+      test('defaults', function() {
+        assert.equal(tbody.items, null, 'items');
+        assert.equal(tbody.as, 'item', 'as');
+        assert.equal(tbody.indexAs, 'index', 'indexAs');
+        assert.equal(tbody.selectedAs, 'selected', 'selectedAs');
+        assert.isFalse(tbody.selectionEnabled, 'selectionEnabled');
+        assert.isFalse(tbody.multiSelection, 'multiSelection');
+      });
+
+      test('check items length', function(done) {
+        container.data = buildDataSet(100);
+        flush(function() {
+          assert.equal(tbody.items.length, container.data.length);
+          done();
+        });
+      });
+
+      test('single selection by item index', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          assert.isNull(tbody.selectedItem);
+
+          tbody.selectItem(0);
+
+          assert.deepEqual(tbody.selectedItem, tbody.items[0]);
+
+          tbody.deselectItem(0);
+
+          assert.deepEqual(tbody.selectedItem, null);
+
+          tbody.selectItem(99);
+
+          assert.deepEqual(tbody.selectedItem, tbody.items[99]);
+
+          done();
+        });
+      });
+
+      test('single selection by item object', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          assert.isNull(tbody.selectedItem);
+
+          tbody.selectItem(tbody.items[50]);
+
+          assert.deepEqual(tbody.selectedItem, tbody.items[50]);
+
+          done();
+        });
+      });
+
+      test('multi selection by item index', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          tbody.multiSelection = true;
+
+          assert.isArray(tbody.selectedItems);
+
+          tbody.selectItem(0);
+          tbody.selectItem(50);
+          tbody.selectItem(99);
+
+          assert.equal(tbody.selectedItems.length, 3);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[0]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[50]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[99]), -1);
+          assert.equal(tbody.selectedItems.indexOf(tbody.items[2]), -1);
+
+          done();
+        });
+      });
+
+      test('multi selection by item object', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          tbody.multiSelection = true;
+
+          assert.isArray(tbody.selectedItems);
+
+          tbody.selectItem(tbody.items[0]);
+          tbody.selectItem(tbody.items[50]);
+          tbody.selectItem(tbody.items[99]);
+
+          assert.equal(tbody.selectedItems.length, 3);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[0]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[50]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[99]), -1);
+          assert.equal(tbody.selectedItems.indexOf(tbody.items[2]), -1);
+
+          done();
+        });
+      });
+
+      test('clear selection', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          tbody.multiSelection = true;
+
+          assert.isArray(tbody.selectedItems);
+
+          tbody.items.forEach(function(item) {
+             tbody.selectItem(item);
+          });
+
+          assert.equal(tbody.selectedItems.length, tbody.items.length);
+
+          tbody.clearSelection();
+
+          assert.equal(tbody.selectedItems.length, 0);
+
+          done();
+        });
+      });
+
+
+      test('toggle selection by item index', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          tbody.toggleSelectionForItem(0);
+
+          assert.deepEqual(tbody.selectedItem, tbody.items[0]);
+
+          tbody.toggleSelectionForItem(0);
+
+          assert.isNull(tbody.selectedItem);
+
+          done();
+        });
+      });
+
+      test('toggle selection by item object', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          tbody.toggleSelectionForItem(tbody.items[0]);
+
+          assert.deepEqual(tbody.selectedItem, tbody.items[0]);
+
+          tbody.toggleSelectionForItem(tbody.items[0]);
+
+          assert.isNull(tbody.selectedItem);
+
+          done();
+        });
+      });
+
+      test('change multi property', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          tbody.multiSelection = true;
+
+          assert.isArray(tbody.selectedItems);
+
+          tbody.multiSelection = false;
+
+          assert.isNotArray(tbody.selectedItems);
+          assert.isNull(tbody.selectedItems);
+
+          tbody.multiSelection = true;
+
+          assert.isArray(tbody.selectedItems);
+
+          done();
+        });
+      });
+
+      test('selectionEnabled with single selection', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          tbody.selectionEnabled = true;
+
+          assert.isNull(tbody.selectedItem);
+
+          // select item[0]
+          MockInteractions.tap(tbody._physicalItems[0]);
+
+          assert.deepEqual(tbody.selectedItem, tbody.items[0]);
+
+          // select item[5] and deselect item[0]
+          MockInteractions.tap(tbody._physicalItems[5]);
+
+          // select item[1] and deselect item[5]
+          MockInteractions.tap(tbody._physicalItems[1]);
+
+          assert.deepEqual(tbody.selectedItem, tbody.items[1]);
+
+          done();
+        });
+      });
+
+      test('selectionEnabled with multiple selection', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          tbody.multiSelection = true;
+
+          MockInteractions.tap(tbody._physicalItems[0]);
+          assert.equal(tbody.selectedItems.length, 0);
+
+          // enable the feature
+          tbody.selectionEnabled = true;
+
+          // select item[0]
+          MockInteractions.tap(tbody._physicalItems[0]);
+
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[0]), -1);
+
+          // multiple selection
+          MockInteractions.tap(tbody._physicalItems[1]);
+          MockInteractions.tap(tbody._physicalItems[5]);
+          MockInteractions.tap(tbody._physicalItems[10]);
+          MockInteractions.tap(tbody._physicalItems[12]);
+
+          tbody.selectItem(0);
+          tbody.deselectItem(1);
+
+          assert.equal(tbody.selectedItems.indexOf(tbody.items[1]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[0]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[5]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[10]), -1);
+          assert.notEqual(tbody.selectedItems.indexOf(tbody.items[12]), -1);
+
+          tbody.clearSelection();
+
+          assert.equal(tbody.selectedItems.length, 0);
+
+          // disable the feature
+          tbody.selectionEnabled = false;
+
+          MockInteractions.tap(tbody._physicalItems[1]);
+
+          assert.equal(tbody.selectedItems.length, 0);
+
+          done();
+        });
+      });
+
+    test('toggle', function(done) {
+      tbody.items = buildDataSet(100);
+
+      flush(function() {
+        tbody.selectionEnabled = true;
+
+        MockInteractions.tap(tbody._physicalItems[0]);
+
+        assert.deepEqual(tbody.selectedItem, tbody.items[0]);
+
+        MockInteractions.tap(tbody._physicalItems[0]);
+
+        assert.isNull(tbody.selectedItem);
+
+        MockInteractions.tap(tbody._physicalItems[0]);
+        tbody.clearSelection();
+
+        assert.isNull(tbody.selectedItem);
+
+        done();
+      });
+
+    });
+
+     test('selectedAs', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          // multi selection
+          tbody.multiSelection = true;
+
+          assert.isFalse(tbody._physicalItems[0]._templateInstance.selected);
+
+          tbody.selectItem(0);
+
+          assert.isTrue(tbody._physicalItems[0]._templateInstance.selected);
+
+          tbody.toggleSelectionForItem(0);
+
+          assert.isFalse(tbody._physicalItems[0]._templateInstance.selected);
+
+          // single selection
+          tbody.multiSelection = false;
+
+          tbody.selectItem(0);
+          tbody.selectItem(10);
+
+          assert.isFalse(tbody._physicalItems[0]._templateInstance.selected);
+          assert.isTrue(tbody._physicalItems[10]._templateInstance.selected);
+
+          done();
+        });
+      });
+
+      test('splice a selected item', function(done) {
+        tbody.items = buildDataSet(100);
+
+        flush(function() {
+          // multi selection
+          tbody.multiSelection = true;
+
+          // select the first two items
+          tbody.selectItem(0);
+          tbody.selectItem(1);
+
+          assert.equal(tbody.selectedItems.length, 2);
+
+          // remove the first two items
+          tbody.splice('items', 0, 2);
+
+          assert.equal(tbody.selectedItems.length, 0);
+
+          done();
+        });
+      });
+
+      test('single selection of a primitive type', function() {
+        tbody.primitive = true;
+        tbody.items = ['a', 'b', 'c', 'd'];
+        tbody.selectionEnabled = true;
+        Polymer.dom.flush();
+        tbody.selectItem(0);
+        assert.equal(tbody.selectedItem, 'a', 'single selection 1');
+        tbody.clearSelection();
+        assert.isNull(tbody.selectedItem);
+        tbody.selectItem(2);
+        tbody.set('items.0', 'z');
+        tbody.set('items.1', 'y');
+        assert.equal(tbody.selectedItem, 'c', 'single selection 2');
+      });
+
+      test('multi selection of a primitive types', function() {
+        tbody.primitive = true;
+        tbody.items = ['a', 'b', 'c', 'd'];
+        tbody.selectionEnabled = true;
+        tbody.multiSelection = true;
+        Polymer.dom.flush();
+        tbody.selectItem(0);
+        tbody.selectItem(1);
+        assert.deepEqual(tbody.selectedItems, ['a', 'b'], 'multiple selection 1');
+        tbody.clearSelection();
+        assert.equal(tbody.selectedItems.length, 0, 'multiple selection 2');
+      });
+
+      test('modify primitive item while being selected', function() {
+        tbody.primitive = true;
+        tbody.items = ['a', 'b', 'c', 'd'];
+        tbody.selectionEnabled = true;
+        Polymer.dom.flush();
+        tbody.selectItem(0);
+        tbody.set('items.0', 'z');
+        assert.equal(tbody.selectedItem, 'z', 'single selection 1');
+        tbody.selectItem(2);
+        assert.equal(tbody.selectedItem, 'c', 'single selection 2');
+        tbody.clearSelection();
+        assert.isNull(tbody.selectedItem);
+
+        // test multi selection
+        tbody.multiSelection = true;
+        tbody.selectItem(0);
+        tbody.selectItem(1);
+        assert.deepEqual(tbody.selectedItems, ['z', 'b'], 'multiple selection 1');
+        tbody.set('items.1', 'y');
+        assert.deepEqual(tbody.selectedItems, ['z', 'y'], 'multiple selection 2');
+        tbody.deselectItem('y');
+        assert.deepEqual(tbody.selectedItems, ['z'], 'multiple selection 3');
+        tbody.deselectItem('z');
+        assert.equal(tbody.selectedItems.length, 0);
+      });
+
+      test('try to select active element', function() {
+        container.useTabIndex = false;
+        tbody.items = buildDataSet(1);
+        tbody.selectionEnabled = true;
+        Polymer.dom.flush();
+
+        var item = tbody._physicalItems[0];
+        item.focus();
+        MockInteractions.tap(item);
+        assert.isNotNull(tbody.selectedItem);
+      });
+    });
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>exm-toolbar demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../polymer/polymer.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../paper-card/paper-card.html">
+    <link rel="import" href="../../paper-slider/paper-slider.html">
+    <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="../../paper-button/paper-button.html">
+    <link rel="import" href="../exm-toolbar.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+        paper-card {
+            display: block;
+            width: 800px;
+            margin: auto;
+            --paper-card-background-color: white;
+        }
+        exm-toolbar { width: 100%; }
+        h2,
+        .buttons {
+            width: 800px;
+            margin: 20px auto;
+        }
+    </style>
+  </head>
+  <body unresolved>
+    <template is="dom-bind" id="app" strip-whitespace>
+     
+        <h2>Toolbar</h2>
+
+        <paper-card elevation="1">
+            <!-- Table Toobar -->
+            <exm-toolbar selected-items="[[selectedItems]]">
+                <div id="default">
+                    <div class="title-container">
+                        <span>Admin Users</span>
+                    </div>
+                    <paper-icon-button icon="add"></paper-icon-button>
+                </div>
+                <div id="selected">
+                    <paper-icon-button icon="delete"></paper-icon-button>
+                </div>
+            </exm-toolbar>
+        </paper-card>
+
+        <br><br>
+
+        <paper-card elevation="1">
+            <!-- Table Toobar -->
+            <exm-toolbar selected-items="[[selectedItems]]">
+                <div id="default">
+                    <div class="title-container">
+                        <span>Admin Users</span>
+                    </div>
+                    <paper-icon-button icon="filter-list"></paper-icon-button>
+                    <paper-icon-button icon="add"></paper-icon-button>
+                </div>
+                <div id="selected">
+                    <paper-icon-button icon="filter-list"></paper-icon-button>
+                    <paper-icon-button icon="delete"></paper-icon-button>
+                </div>
+            </exm-toolbar>
+        </paper-card>
+
+        <br><br>
+
+        <paper-card elevation="1">
+            <!-- Table Toobar -->
+            <exm-toolbar selected-items="[[selectedItems]]">
+                <div id="default">
+                    <paper-button>ADD</paper-button>
+                    <paper-button>REMOVE</paper-button>
+                    <span class="flex"></span>
+                    <paper-icon-button icon="filter-list"></paper-icon-button>
+                    <paper-icon-button icon="more-vert"></paper-icon-button>
+                </div>
+                <div id="selected">
+                    <paper-icon-button icon="filter-list"></paper-icon-button>
+                    <paper-icon-button icon="more-vert"></paper-icon-button>
+                </div>
+            </exm-toolbar>
+        </paper-card>
+
+        <div class="buttons"><paper-slider id="slider" min="0" max="10" value="{{selectedItems}}"></paper-slider></div>
+
+         <script>
+            var toolbars = document.querySelectorAll('exm-toolbar');  
+            document.getElementById('slider').addEventListener('change',function(e) { 
+                toolbars.forEach(function(toolbar) {
+                    var selectedItems = [];
+                    for(var i=0;i<e.target.value;i++){
+                        selectedItems.push({});
+                    }
+                    toolbar.selectedItems = selectedItems;
+                }); 
+            });
+            toolbars.forEach(function(toolbar) {
+                toolbar.selectedItems = [];
+            });
+         </script>
+
+    </template>
+  </body>
+</html>

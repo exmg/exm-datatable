@@ -1,0 +1,191 @@
+<!doctype html>
+<html>
+<head>
+
+    <title>Filter Table</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../polymer/polymer.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="../../paper-card/paper-card.html">
+    <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+    <link rel="import" href="../../iron-input/iron-input.html">
+    <link rel="import" href="../../iron-ajax/iron-ajax.html">
+    <link rel="import" href="../../iron-icon/iron-icon.html">
+    <link rel="import" href="../../iron-icons/iron-icons.html">
+    <link rel="import" href="../exm-toolbar.html">
+    <link rel="import" href="../exm-datatable.html">
+    <link rel="import" href="../exm-thead.html">
+    <link rel="import" href="../exm-tbody.html">
+    <link rel="import" href="../exm-paging.html">
+    <link rel="import" href="../exm-data-helper.html">
+    <link rel="import" href="../exm-data-filter.html">
+
+    <style>
+        body {
+            background: #eee;
+        }
+    </style>
+
+</head>
+
+<body unresolved>
+
+  <dom-module id="x-table">
+    <template>
+      <style>
+        :host {
+          display: block;
+          @apply(--paper-font-common-base);
+          font-family: sans-serif;
+        }
+        table {
+          table-layout: fixed;
+          width: 100%;
+        }
+        h2,
+        .buttons {
+            width: 800px;
+            margin: 20px auto;
+        }
+        paper-card {
+            display: block;
+            max-width: 800px;
+            margin: auto;
+            --paper-card-background-color: white;
+        }
+        .item.selected {
+          background-color: #F5F5F5;
+        }
+        iron-icon {
+            margin: 0 8px 0 0;
+        }
+        input {
+            width: 100%;
+            margin: 0 20px;
+            border-width: 0px;
+            padding: 5px;
+            border-bottom: 1px solid #dbdbdb;
+            font-size: 14px;
+        }
+        input:focus {
+            outline-color: transparent;
+            outline-style: none;
+            background: #f5f5f5;
+            border-width: 0px;
+        }
+      </style>
+
+      <h2>Filter Table</h2>
+
+      <paper-card id="table1" elevation="1">
+        <!-- Table Toobar -->
+        <exm-toolbar selected-items="[[selectedItems]]">
+          <div id="default" >
+            <iron-icon icon="search"></iron-icon>
+            <input is="iron-input" bind-value="{{filterValue}}">
+            <paper-icon-button icon="add" on-tap="_addItem"></paper-icon-button>
+          </div>
+          <div id="selected">
+            <paper-icon-button icon="delete" on-tap="_deleteItems"></paper-icon-button>
+          </div>
+        </exm-toolbar>
+        <!-- Table Content -->
+        <table is="exm-datatable">
+          <colgroup>
+            <col style="width:50px;">
+            <col style="width:50%;">
+            <col style="width:50%;">
+            <col style="width:140px;">
+            <col style="width:140px;">
+          </colgroup>
+          <!-- Table THEAD -->
+          <thead is="exm-thead" sorted="{{sorted}}" sort-direction="{{sortDirection}}">
+            <tr>
+              <th></th>
+              <th sortable="name">Name</th>
+              <th sortable="email">Email</th>
+              <th sortable="city">City</th>
+              <th sortable="country">Country</th>
+            </tr>
+          </thead>
+          <!-- Table TBODY -->
+          <tbody is="exm-tbody" id="datatable" multi-selection="[[multiSelection]]" selection-enabled checkbox-used items='[[items]]' selected-items="{{selectedItems}}">
+              <template id="tbody">
+                <tr class$="[[_computedClass(selected)]]">
+                  <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>
+                  <td>[[item.name]]</td>
+                  <td>[[item.email]]</td>
+                  <td>[[item.city]]</td>
+                  <td>[[item.country]]</td>
+                </tr>
+              </template>
+          </tbody>
+        </table>
+        <!-- Table Paging -->
+        <exm-paging total-items="[[totalItems]]" page-index="{{pageIndex}}" page-size="{{pageSize}}"></exm-paging>
+      </paper-card>
+
+      <!-- Load contacts from json file  -->
+      <iron-ajax url="data/contacts.json" last-response="{{rawItems}}" auto></iron-ajax>
+     
+      <!-- Filter items by filter value and return resulting items to the data provider  -->
+      <exm-data-filter raw-items="[[rawItems]]" items="{{filteredItems}}" filter-value="[[filterValue]]" filter-fields="name,email"></exm-data-filter>
+     
+      <!-- Manage sorting and paging  -->
+      <exm-data-helper id="dataProvider" raw-items="[[filteredItems]]" items="{{items}}" page-index="[[pageIndex]]" page-size="[[pageSize]]" sorted="[[sorted]]" sort-direction="[[sortDirection]]" total-items="{{totalItems}}"></exm-data-helper>
+
+      <div class="buttons">
+        <paper-toggle-button checked="{{multiSelection}}">Multi Selection</paper-toggle-button>
+      </div>
+    </template>
+
+    <script>
+
+      HTMLImports.whenReady(function() {
+
+          Polymer({
+            is: 'x-table',
+            properties: {
+              sorted: {
+                  type: String,
+                  value: 'name'
+              }
+            },
+            _computedClass: function(isSelected) {
+              var classes = 'item';
+              if (isSelected) {
+                classes += ' selected';
+              }
+              return classes;
+            },
+            _addItem: function() {
+              this.push('rawItems', { "name" : "Mark", "email" : "mark@test.com" });
+            },
+            _deleteItem: function(item) {
+              this.splice('rawItems', this.rawItems.indexOf(item), 1);
+            },
+            _deleteItems: function() {
+              var itemsToDelete =  Array.isArray(this.selectedItems) ? this.selectedItems : [this.selectedItems];
+              for(var i = 0; i < itemsToDelete.length; i++) {
+                 this._deleteItem(itemsToDelete[i]);
+              }
+            }
+          });
+
+      });
+
+    </script>
+  </dom-module>
+
+  <x-table></x-table>
+
+</body>
+</html>

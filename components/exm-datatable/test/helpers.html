@@ -1,0 +1,19 @@
+
+<script>
+
+  function buildItem(index) {
+    return {
+      index: index,
+      name: 'name-'+index
+    };
+  }
+
+  function buildDataSet(size) {
+    var data = [];
+    while (data.length < size) {
+      data.push(buildItem(data.length));
+    }
+    return data;
+  }
+
+</script>
