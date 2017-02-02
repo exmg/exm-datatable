@@ -10,8 +10,9 @@
 
     <link rel="import" href="../../polymer/polymer.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../paper-card/paper-card.html">
     <link rel="import" href="../../iron-ajax/iron-ajax.html">
+    <link rel="import" href="../../paper-card/paper-card.html">
+
     <link rel="import" href="../exm-tbody.html">
     <link rel="import" href="../exm-thead.html">
     <link rel="import" href="../exm-datatable.html">
@@ -57,7 +58,7 @@
             </tr>
           </thead>
           <!-- Table TBODY -->
-          <tbody is="exm-tbody" id="datatable" selection-enabled items='[[items]]'> 
+          <tbody is="exm-tbody" id="datatable" selection-enabled items='[[items]]'>
               <template id="tbody">
                 <tr>
                   <td>[[item.name]]</td>
@@ -71,10 +72,10 @@
 
       <!-- Load contacts from json file  -->
       <iron-ajax url="data/contacts.json" last-response="{{rawItems}}" auto></iron-ajax>
- 
+
       <!-- Display first page from data set  -->
       <exm-data-helper raw-items="[[rawItems]]" items="{{items}}" page-index="0" page-size="10"></exm-data-helper>
-    
+
     </template>
   </body>
 </html>

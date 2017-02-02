@@ -13,13 +13,14 @@
 
     <link rel="import" href="../../polymer/polymer.html">
     <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
-    <link rel="import" href="../../paper-card/paper-card.html">
-    <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
     <link rel="import" href="../../iron-input/iron-input.html">
     <link rel="import" href="../../iron-ajax/iron-ajax.html">
     <link rel="import" href="../../iron-icon/iron-icon.html">
-    <link rel="import" href="../../iron-icons/iron-icons.html">
+    <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="../../paper-card/paper-card.html">
+    <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+    <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+
     <link rel="import" href="../exm-toolbar.html">
     <link rel="import" href="../exm-datatable.html">
     <link rel="import" href="../exm-thead.html">
@@ -27,6 +28,7 @@
     <link rel="import" href="../exm-paging.html">
     <link rel="import" href="../exm-data-helper.html">
     <link rel="import" href="../exm-data-filter.html">
+    <link rel="import" href="../exm-icons.html">
 
     <style>
         body {
@@ -89,12 +91,12 @@
         <!-- Table Toobar -->
         <exm-toolbar selected-items="[[selectedItems]]">
           <div id="default" >
-            <iron-icon icon="search"></iron-icon>
+            <iron-icon icon="exm-icons:search"></iron-icon>
             <input is="iron-input" bind-value="{{filterValue}}">
-            <paper-icon-button icon="add" on-tap="_addItem"></paper-icon-button>
+            <paper-icon-button icon="exm-icons:add" on-tap="_addItem"></paper-icon-button>
           </div>
           <div id="selected">
-            <paper-icon-button icon="delete" on-tap="_deleteItems"></paper-icon-button>
+            <paper-icon-button icon="exm-icons:delete" on-tap="_deleteItems"></paper-icon-button>
           </div>
         </exm-toolbar>
         <!-- Table Content -->
@@ -135,10 +137,10 @@
 
       <!-- Load contacts from json file  -->
       <iron-ajax url="data/contacts.json" last-response="{{rawItems}}" auto></iron-ajax>
-     
+
       <!-- Filter items by filter value and return resulting items to the data provider  -->
       <exm-data-filter raw-items="[[rawItems]]" items="{{filteredItems}}" filter-value="[[filterValue]]" filter-fields="name,email"></exm-data-filter>
-     
+
       <!-- Manage sorting and paging  -->
       <exm-data-helper id="dataProvider" raw-items="[[filteredItems]]" items="{{items}}" page-index="[[pageIndex]]" page-size="[[pageSize]]" sorted="[[sorted]]" sort-direction="[[sortDirection]]" total-items="{{totalItems}}"></exm-data-helper>
 

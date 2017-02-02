@@ -1,13 +1,11 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
-<link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../paper-styles/typography.html">
 
 <!--
 Material design: Datatables (https://material.io/guidelines/components/data-tables.html)
 
 `exm-toolbar` will add configurable toolbar at the top of the table. This toolbar supports
-a default and selected state. This state will toggle based on the content provided to the 
+a default and selected state. This state will toggle based on the content provided to the
 selected items attribute.
 
 ```html
@@ -23,7 +21,7 @@ selected items attribute.
 	</div>
 </exm-toolbar>
 <table is="exm-datatable">
-  <tbody is="exm-tbody" items='[[items]]'> 
+  <tbody is="exm-tbody" items='[[items]]'>
     ...
   </tbody>
 </table>
@@ -51,7 +49,7 @@ Custom property | Description | Default
 		:host {
 			display: block;
             position: relative;
-			@apply(--paper-font-common-base);  
+			@apply(--paper-font-common-base);
             background: var(--exm-toolbar-background-color, none);
             color: var(--exm-toolbar-text-color, rgba(0,0,0,.87));
 			font-size: 20px;
@@ -80,7 +78,7 @@ Custom property | Description | Default
 		#default-toolbar ::content #default,
 		#selected-toolbar {
 			padding:0px 12px 0px 24px;
-		} 
+		}
         #selected-toolbar {
             @apply(--layout-horizontal);
             @apply(--layout-center);
@@ -96,8 +94,8 @@ Custom property | Description | Default
 			transform: scale(1,1);
 		}
 
-		#selected-toolbar > ::content paper-icon-button, 
-		#selected-toolbar > ::content paper-icon, 
+		#selected-toolbar > ::content paper-icon-button,
+		#selected-toolbar > ::content paper-icon,
 		#selected-toolbar > ::content iron-icon{
 			color: var(--exm-toolbar-selection-icon-color, rgba(0,0,0,.54));
 		}
@@ -109,7 +107,7 @@ Custom property | Description | Default
 		::content .title-container span{
 			width:100%;
 		}
-		::content paper-icon-button, 
+		::content paper-icon-button,
         ::content paper-icon,
         ::content iron-icon{
 			color: var(--exm-toolbar-icon-color, rgba(0,0,0,.87));
@@ -160,7 +158,7 @@ Custom property | Description | Default
         _selectedItemsChanged: function(changes) {
             if(changes.path === 'selectedItems') {
                 this.set('_selectedRows', changes.value === null ? 0 : Array.isArray(changes.value) ? changes.value.length : 1);
-            } 
+            }
             if(changes.path === 'selectedItems.length') {
                 this.set('_selectedRows', changes.value);
             }

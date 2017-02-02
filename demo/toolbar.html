@@ -14,7 +14,9 @@
     <link rel="import" href="../../paper-slider/paper-slider.html">
     <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
     <link rel="import" href="../../paper-button/paper-button.html">
+
     <link rel="import" href="../exm-toolbar.html">
+    <link rel="import" href="../exm-icons.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
         paper-card {
@@ -33,7 +35,7 @@
   </head>
   <body unresolved>
     <template is="dom-bind" id="app" strip-whitespace>
-     
+
         <h2>Toolbar</h2>
 
         <paper-card elevation="1">
@@ -43,10 +45,10 @@
                     <div class="title-container">
                         <span>Admin Users</span>
                     </div>
-                    <paper-icon-button icon="add"></paper-icon-button>
+                    <paper-icon-button icon="exm-icons:add"></paper-icon-button>
                 </div>
                 <div id="selected">
-                    <paper-icon-button icon="delete"></paper-icon-button>
+                    <paper-icon-button icon="exm-icons:delete"></paper-icon-button>
                 </div>
             </exm-toolbar>
         </paper-card>
@@ -92,15 +94,15 @@
         <div class="buttons"><paper-slider id="slider" min="0" max="10" value="{{selectedItems}}"></paper-slider></div>
 
          <script>
-            var toolbars = document.querySelectorAll('exm-toolbar');  
-            document.getElementById('slider').addEventListener('change',function(e) { 
+            var toolbars = document.querySelectorAll('exm-toolbar');
+            document.getElementById('slider').addEventListener('change',function(e) {
                 toolbars.forEach(function(toolbar) {
                     var selectedItems = [];
                     for(var i=0;i<e.target.value;i++){
                         selectedItems.push({});
                     }
                     toolbar.selectedItems = selectedItems;
-                }); 
+                });
             });
             toolbars.forEach(function(toolbar) {
                 toolbar.selectedItems = [];

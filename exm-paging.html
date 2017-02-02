@@ -1,19 +1,19 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../paper-menu/paper-menu.html">
 <link rel="import" href="../paper-item/paper-item.html">
-<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../paper-styles/typography.html">
+<link rel="import" href="exm-icons.html">
 
 <!--
 Material design: Datatables](https://material.io/guidelines/components/data-tables.html)
 
-`exm-paging` is the paging controll element that can be positioned at the footer of the table. 
+`exm-paging` is the paging controll element that can be positioned at the footer of the table.
 
 ```html
 <table is="exm-datatable">
-  <tbody is="exm-tbody" items='[[items]]'> 
+  <tbody is="exm-tbody" items='[[items]]'>
     ...
   </tbody>
 </table>
@@ -42,7 +42,7 @@ Custom property | Description | Default
 	<style>
 		:host {
 			display: block;
-            @apply(--paper-font-common-base);  
+            @apply(--paper-font-common-base);
             background: var(--exm-paging-background-color, none);
             color: var(--exm-paging-text-color, rgba(0,0,0,.87));
 			font-size: 12px;
@@ -52,8 +52,8 @@ Custom property | Description | Default
 			border-top: 1px solid var(--exm-paging-border-top-divider-color, --divider-color);
             @apply(--layout-horizontal);
             @apply(--layout-end-justified);
-            @apply(--layout-center);  
-            @apply(--exm-paging);   
+            @apply(--layout-center);
+            @apply(--exm-paging);
 		}
 
         paper-dropdown-menu {
@@ -85,7 +85,7 @@ Custom property | Description | Default
 
         .page-information {
 			margin: 0 20px 0 32px;
-            @apply(--exm-paging-page-information); 
+            @apply(--exm-paging-page-information);
 		}
 
 	</style>
@@ -106,8 +106,8 @@ Custom property | Description | Default
             -
             [[_pageInfoEnd(pageIndex,pageSize,totalItems)]] of [[totalItems]]
         </span>
-        <paper-icon-button icon="icons:chevron-left" on-tap="previousPage" disabled="[[_isFirstPage(pageIndex)]]"></paper-icon-button>
-        <paper-icon-button icon="icons:chevron-right" on-tap="nextPage" disabled="[[_isLastPage(pageIndex, pageSize, totalItems)]]"></paper-icon-button>
+        <paper-icon-button icon="exm-icons:chevron-left" on-tap="previousPage" disabled="[[_isFirstPage(pageIndex)]]"></paper-icon-button>
+        <paper-icon-button icon="exm-icons:chevron-right" on-tap="nextPage" disabled="[[_isLastPage(pageIndex, pageSize, totalItems)]]"></paper-icon-button>
 	</template>
 
 	<script>
