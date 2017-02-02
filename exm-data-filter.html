@@ -1,5 +1,37 @@
 <link rel="import" href="../polymer/polymer.html">
 
+<!--
+`exm-data-filter` is filter element that lets you filter local data sets.
+
+```html
+<iron-ajax url="data/contacts.json" last-response="{{rawItems}}" auto></iron-ajax>
+
+<exm-data-filter
+  raw-items="[[rawItems]]"
+  items="{{filteredItems}}"
+  filter-value="[[filterValue]]"
+  filter-fields="name,email">
+</exm-data-filter>
+
+<input is="iron-input" bind-value="{{filterValue}}">
+
+<table is="exm-datatable">
+  <tbody is="exm-tbody" items='[[filteredItems]]'>
+    <template id="tbody">
+      <tr>
+        <td>[[item.name]]</td>
+        <td>[[item.email]]</td>
+        <td>[[item.phone]]</td>
+      </tr>
+    </template>
+  </tbody>
+</table>
+```
+
+@element exm-data-filter
+@demo demo/index.html
+-->
+
 <dom-module id="exm-data-filter">
   <template></template>
   <script>
@@ -15,7 +47,7 @@
       },
 
       /**
-       * filtered and or sorted items
+       * This array will conatin the filtered items list
        */
       items: {
         type: Array,
@@ -23,18 +55,18 @@
       },
 
       /**
-       * Text string used for filtering the fields
+       * Text string used for filtering the fields.
        */
-        filterValue: {
+      filterValue: {
         type: String
       },
 
       /**
-       * Comma seperated list of filter fields
+       * Comma seperated list of filter fields.
        */
-      	filterFields: {
-        	type: String
-        }
+      filterFields: {
+        type: String
+      }
 
     },
     observers: [

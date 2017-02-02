@@ -1,5 +1,51 @@
 <link rel="import" href="../polymer/polymer.html">
 
+<!--
+`exm-data-helper` is helper element that facilitates sorting and paging on local data sets.
+
+```html
+<iron-ajax url="data/contacts.json" last-response="{{rawItems}}" auto></iron-ajax>
+
+<exm-data-helper
+  raw-items="[[rawItems]]"
+  items="{{items}}"
+  page-index="[[pageIndex]]"
+  page-size="[[pageSize]]"
+  sorted="[[sorted]]"
+  sort-direction="[[sortDirection]]"
+  total-items="{{totalItems}}">
+</exm-data-helper>
+
+<table is="exm-datatable">
+  <thead is="exm-thead" sorted="{{sorted}}" sort-direction="{{sortDirection}}">
+    <tr>
+      <th sortable="name">Name</th>
+      <th sortable="email">Email</th>
+      <th sortable="phone">Phone</th>
+    </tr>
+  </thead>
+  <tbody is="exm-tbody" items='[[items]]'>
+    <template id="tbody">
+      <tr>
+        <td>[[item.name]]</td>
+        <td>[[item.email]]</td>
+        <td>[[item.phone]]</td>
+      </tr>
+    </template>
+  </tbody>
+</table>
+
+<exm-paging
+  total-items="[[totalItems]]"
+  page-index="{{pageIndex}}"
+  page-size="{{pageSize}}">
+</exm-paging>
+```
+
+@element exm-data-helper
+@demo demo/index.html
+-->
+
 <dom-module id="exm-data-helper">
   <template></template>
   <script>
@@ -15,15 +61,16 @@
       },
 
       /**
-       * filtered and or sorted items
+       * Returnes a page of the sorted items
        */
       items: {
         type: Array,
-                notify: true
+        notify: true
       },
 
       /**
-      * Set the header title of the table
+      * Returns the total length of the raw list that will be used in the exm-paging
+      * as indication on how much pages there are available.
       */
       totalItems: {
         notify: true,
@@ -63,9 +110,9 @@
       '_ramItemsChanged(rawItems.*)',
       '_pageChanged(pageIndex, pageSize)'
     ],
-    doSort: false,
+    _doSort: false,
     _sortChanged: function(sorted, sortDirection) {
-      this.doSort = true;
+      this._doSort = true;
       this._updatePage();
     },
     _computeLength: function(rawItems) {
@@ -84,7 +131,7 @@
       }
       var start = (this.pageIndex * this.pageSize);
 
-      if(this.doSort && this.sorted) {
+      if(this._doSort && this.sorted) {
         var lookupItemByPath = function(item, path) {
           var parts = path.split(".");
           if (parts.length === 1){
@@ -111,7 +158,7 @@
           return 0;
         }.bind(this));
 
-        this.doSort = false;
+        this._doSort = false;
       }
 
       this.set('items', []);
