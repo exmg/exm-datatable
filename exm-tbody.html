@@ -75,20 +75,20 @@ Custom property | Description | Default
   <template>
     <style>
       :host ::content tr:not(.expandable):hover {
-         background: var(--exm-tbody-background-hover, #EEEEEE);
-         cursor: pointer;
+        background: var(--exm-tbody-background-hover, #EEEEEE);
+        cursor: pointer;
       }
       :host ::content tr > td {
-          border: 0px;
-        	border-bottom: 1px;
-          border-style: solid;
-          border-color: var(--exm-tbody-row-bottom-border-color, #dbdbdb);
-          box-sizing: border-box;
-          padding: 12px 24px;
-          @apply(--exm-tbody-td);
+        border: 0px;
+      	border-bottom: 1px;
+        border-style: solid;
+        border-color: var(--exm-tbody-row-bottom-border-color, #dbdbdb);
+        box-sizing: border-box;
+        padding: 12px 24px;
+        @apply(--exm-tbody-td);
       }
       :host ::content tr:not(.expandable) > td {
-				height: 48px;
+        height: 48px;
         line-height: 36px;
         vertical-align: middle;
         white-space: nowrap;
@@ -100,8 +100,8 @@ Custom property | Description | Default
       }
 
       :host ::content tr:last-of-type td{
-			  border-bottom:none;
-		  }
+        border-bottom:none;
+      }
 
       :host[checkbox-used] ::content tr:not(.expandable) td:first-of-type,
       :host[checkbox-used] ::content tr:not(.expandable) th:first-of-type{

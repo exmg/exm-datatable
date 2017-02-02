@@ -2,39 +2,39 @@
 <html>
 <head>
 
-    <title>Filter Table</title>
+  <title>Filter Table</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
-    <link rel="import" href="../../polymer/polymer.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-input/iron-input.html">
-    <link rel="import" href="../../iron-ajax/iron-ajax.html">
-    <link rel="import" href="../../iron-icon/iron-icon.html">
-    <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
-    <link rel="import" href="../../paper-card/paper-card.html">
-    <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
-    <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-input/iron-input.html">
+  <link rel="import" href="../../iron-ajax/iron-ajax.html">
+  <link rel="import" href="../../iron-icon/iron-icon.html">
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="../../paper-card/paper-card.html">
+  <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+  <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 
-    <link rel="import" href="../exm-toolbar.html">
-    <link rel="import" href="../exm-datatable.html">
-    <link rel="import" href="../exm-thead.html">
-    <link rel="import" href="../exm-tbody.html">
-    <link rel="import" href="../exm-paging.html">
-    <link rel="import" href="../exm-data-helper.html">
-    <link rel="import" href="../exm-data-filter.html">
-    <link rel="import" href="../exm-icons.html">
+  <link rel="import" href="../exm-toolbar.html">
+  <link rel="import" href="../exm-datatable.html">
+  <link rel="import" href="../exm-thead.html">
+  <link rel="import" href="../exm-tbody.html">
+  <link rel="import" href="../exm-paging.html">
+  <link rel="import" href="../exm-data-helper.html">
+  <link rel="import" href="../exm-data-filter.html">
+  <link rel="import" href="../exm-icons.html">
 
-    <style>
-        body {
-            background: #eee;
-        }
-    </style>
+  <style>
+      body {
+          background: #eee;
+      }
+  </style>
 
 </head>
 
@@ -120,15 +120,15 @@
           </thead>
           <!-- Table TBODY -->
           <tbody is="exm-tbody" id="datatable" multi-selection="[[multiSelection]]" selection-enabled checkbox-used items='[[items]]' selected-items="{{selectedItems}}">
-              <template id="tbody">
-                <tr class$="[[_computedClass(selected)]]">
-                  <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>
-                  <td>[[item.name]]</td>
-                  <td>[[item.email]]</td>
-                  <td>[[item.city]]</td>
-                  <td>[[item.country]]</td>
-                </tr>
-              </template>
+            <template id="tbody">
+              <tr class$="[[_computedClass(selected)]]">
+                <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>
+                <td>[[item.name]]</td>
+                <td>[[item.email]]</td>
+                <td>[[item.city]]</td>
+                <td>[[item.country]]</td>
+              </tr>
+            </template>
           </tbody>
         </table>
         <!-- Table Paging -->

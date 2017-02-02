@@ -36,78 +36,78 @@
   <body unresolved>
     <template is="dom-bind" id="app" strip-whitespace>
 
-        <h2>Toolbar</h2>
+      <h2>Toolbar</h2>
 
-        <paper-card elevation="1">
-            <!-- Table Toobar -->
-            <exm-toolbar selected-items="[[selectedItems]]">
-                <div id="default">
-                    <div class="title-container">
-                        <span>Admin Users</span>
-                    </div>
-                    <paper-icon-button icon="exm-icons:add"></paper-icon-button>
-                </div>
-                <div id="selected">
-                    <paper-icon-button icon="exm-icons:delete"></paper-icon-button>
-                </div>
-            </exm-toolbar>
-        </paper-card>
+      <paper-card elevation="1">
+        <!-- Table Toobar -->
+        <exm-toolbar selected-items="[[selectedItems]]">
+          <div id="default">
+            <div class="title-container">
+              <span>Admin Users</span>
+            </div>
+            <paper-icon-button icon="exm-icons:add"></paper-icon-button>
+          </div>
+          <div id="selected">
+            <paper-icon-button icon="exm-icons:delete"></paper-icon-button>
+          </div>
+        </exm-toolbar>
+      </paper-card>
 
-        <br><br>
+      <br><br>
 
-        <paper-card elevation="1">
-            <!-- Table Toobar -->
-            <exm-toolbar selected-items="[[selectedItems]]">
-                <div id="default">
-                    <div class="title-container">
-                        <span>Admin Users</span>
-                    </div>
-                    <paper-icon-button icon="filter-list"></paper-icon-button>
-                    <paper-icon-button icon="add"></paper-icon-button>
-                </div>
-                <div id="selected">
-                    <paper-icon-button icon="filter-list"></paper-icon-button>
-                    <paper-icon-button icon="delete"></paper-icon-button>
-                </div>
-            </exm-toolbar>
-        </paper-card>
+      <paper-card elevation="1">
+        <!-- Table Toobar -->
+        <exm-toolbar selected-items="[[selectedItems]]">
+          <div id="default">
+            <div class="title-container">
+              <span>Admin Users</span>
+            </div>
+            <paper-icon-button icon="filter-list"></paper-icon-button>
+            <paper-icon-button icon="add"></paper-icon-button>
+          </div>
+          <div id="selected">
+            <paper-icon-button icon="filter-list"></paper-icon-button>
+            <paper-icon-button icon="delete"></paper-icon-button>
+          </div>
+        </exm-toolbar>
+      </paper-card>
 
-        <br><br>
+      <br><br>
 
-        <paper-card elevation="1">
-            <!-- Table Toobar -->
-            <exm-toolbar selected-items="[[selectedItems]]">
-                <div id="default">
-                    <paper-button>ADD</paper-button>
-                    <paper-button>REMOVE</paper-button>
-                    <span class="flex"></span>
-                    <paper-icon-button icon="filter-list"></paper-icon-button>
-                    <paper-icon-button icon="more-vert"></paper-icon-button>
-                </div>
-                <div id="selected">
-                    <paper-icon-button icon="filter-list"></paper-icon-button>
-                    <paper-icon-button icon="more-vert"></paper-icon-button>
-                </div>
-            </exm-toolbar>
-        </paper-card>
+      <paper-card elevation="1">
+        <!-- Table Toobar -->
+        <exm-toolbar selected-items="[[selectedItems]]">
+          <div id="default">
+            <paper-button>ADD</paper-button>
+            <paper-button>REMOVE</paper-button>
+            <span class="flex"></span>
+            <paper-icon-button icon="filter-list"></paper-icon-button>
+            <paper-icon-button icon="more-vert"></paper-icon-button>
+          </div>
+          <div id="selected">
+            <paper-icon-button icon="filter-list"></paper-icon-button>
+            <paper-icon-button icon="more-vert"></paper-icon-button>
+          </div>
+        </exm-toolbar>
+      </paper-card>
 
-        <div class="buttons"><paper-slider id="slider" min="0" max="10" value="{{selectedItems}}"></paper-slider></div>
+      <div class="buttons"><paper-slider id="slider" min="0" max="10" value="{{selectedItems}}"></paper-slider></div>
 
-         <script>
-            var toolbars = document.querySelectorAll('exm-toolbar');
-            document.getElementById('slider').addEventListener('change',function(e) {
-                toolbars.forEach(function(toolbar) {
-                    var selectedItems = [];
-                    for(var i=0;i<e.target.value;i++){
-                        selectedItems.push({});
-                    }
-                    toolbar.selectedItems = selectedItems;
-                });
-            });
+       <script>
+          var toolbars = document.querySelectorAll('exm-toolbar');
+          document.getElementById('slider').addEventListener('change',function(e) {
             toolbars.forEach(function(toolbar) {
-                toolbar.selectedItems = [];
+              var selectedItems = [];
+              for(var i=0;i<e.target.value;i++){
+                selectedItems.push({});
+              }
+              toolbar.selectedItems = selectedItems;
             });
-         </script>
+          });
+          toolbars.forEach(function(toolbar) {
+            toolbar.selectedItems = [];
+          });
+       </script>
 
     </template>
   </body>

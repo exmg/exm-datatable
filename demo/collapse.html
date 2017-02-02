@@ -2,31 +2,31 @@
 <html>
 <head>
 
-    <title>Collapse Table</title>
+  <title>Collapse Table</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
-    <link rel="import" href="../../polymer/polymer.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
-    <link rel="import" href="../../paper-card/paper-card.html">
-    <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
-    <link rel="import" href="../../iron-ajax/iron-ajax.html">
-    <link rel="import" href="../exm-datatable.html">
-    <link rel="import" href="../exm-thead.html">
-    <link rel="import" href="../exm-tbody.html">
-    <link rel="import" href="../exm-data-helper.html">
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="../../paper-card/paper-card.html">
+  <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+  <link rel="import" href="../../iron-ajax/iron-ajax.html">
+  <link rel="import" href="../exm-datatable.html">
+  <link rel="import" href="../exm-thead.html">
+  <link rel="import" href="../exm-tbody.html">
+  <link rel="import" href="../exm-data-helper.html">
 
-    <style>
-        body {
-            background: #eee;
-        }
-    </style>
+  <style>
+      body {
+          background: #eee;
+      }
+  </style>
 
 </head>
 
@@ -64,7 +64,7 @@
             display: table-row;
         }
       </style>
-    
+
       <h2>Collapsible Table</h2>
 
       <paper-card id="table1" elevation="1">
@@ -81,7 +81,7 @@
             </tr>
           </thead>
           <!-- Table TBODY -->
-          <tbody is="exm-tbody" scroll-target="document" id="datatable" multi-selection="[[multiSelection]]" selection-enabled checkbox-used items='[[items]]' selected-items="{{selectedItems}}"> 
+          <tbody is="exm-tbody" scroll-target="document" id="datatable" multi-selection="[[multiSelection]]" selection-enabled checkbox-used items='[[items]]' selected-items="{{selectedItems}}">
               <template id="tbody">
                 <tr class$="[[_computedClass(selected)]]">
                     <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>
@@ -103,7 +103,7 @@
 
       <!-- Load contacts from json file  -->
       <iron-ajax url="data/contacts.json" last-response="{{rawItems}}" auto></iron-ajax>
-   
+
       <!-- Manage sorting and paging  -->
       <exm-data-helper raw-items="[[rawItems]]" items="{{items}}" page-index="0" page-size="10" sorted="[[sorted]]" sort-direction="[[sortDirection]]"></exm-data-helper>
 
@@ -113,7 +113,7 @@
     </template>
 
     <script>
-    
+
       HTMLImports.whenReady(function() {
 
           Polymer({

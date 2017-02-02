@@ -1,126 +1,126 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <dom-module id="exm-data-helper">
-	<template></template>
-	<script>
-	Polymer({
-		is: 'exm-data-helper',
-		properties: {
+  <template></template>
+  <script>
+  Polymer({
+    is: 'exm-data-helper',
+    properties: {
 
-			/**
-			 * Raw item list 
-			 */
-			rawItems: {
-				type: Array
-			},
+      /**
+       * Raw item list
+       */
+      rawItems: {
+        type: Array
+      },
 
-			/**
-			 * filtered and or sorted items 
-			 */
-			items: {
-				type: Array,
+      /**
+       * filtered and or sorted items
+       */
+      items: {
+        type: Array,
                 notify: true
-			},
+      },
 
-			/**
-			* Set the header title of the table
-			*/
-			totalItems: {
-				notify: true,
-				type: Number,
-				computed: '_computeLength(rawItems.*)'
-			},
-			
-			/**
-            * This property can be used to change the current visible items page
-            */
-            pageIndex: {
-                type: Number,
-                value: 0
-            },
+      /**
+      * Set the header title of the table
+      */
+      totalItems: {
+        notify: true,
+        type: Number,
+        computed: '_computeLength(rawItems.*)'
+      },
 
-            /**
-            * Set the page size of the exposed item list
-            */
-            pageSize: {
-                type: Number,
-                value: 10
-            },
+      /**
+      * This property can be used to change the current visible items page
+      */
+      pageIndex: {
+        type: Number,
+        value: 0
+      },
 
-			/**
-			* An string containing the column sort key
-			*/
-			sorted: String,
-			
-			/**
-			* An string containing 'ASC' or 'DESC' to indicate the sorting direction
-			*/
-			sortDirection: String
+      /**
+      * Set the page size of the exposed item list
+      */
+      pageSize: {
+        type: Number,
+        value: 10
+      },
 
-		},
-        observers: [
-			'_sortChanged(sorted,sortDirection)',
-            '_ramItemsChanged(rawItems.*)',
-			'_pageChanged(pageIndex, pageSize)'
-        ],
-		doSort: false,
-		_sortChanged: function(sorted, sortDirection) {
-			this.doSort = true;
-			this._updatePage();
-		},	
-		_computeLength: function(rawItems) {
-			return this.rawItems.length;
-		},
-        _ramItemsChanged: function() {
-			this._updatePage();
-        },
-		_pageChanged: function(pageIndex, pageSize) {
-			this._updatePage();
-		},
-		_updatePage: function() {
+      /**
+      * An string containing the column sort key
+      */
+      sorted: String,
 
-			if(this.rawItems === undefined) {
-				return;
-			}
-			var start = (this.pageIndex * this.pageSize);
+      /**
+      * An string containing 'ASC' or 'DESC' to indicate the sorting direction
+      */
+      sortDirection: String
 
-			if(this.doSort && this.sorted) {
-				var lookupItemByPath = function(item, path) {
-					var parts = path.split(".");
-					if (parts.length === 1){
-						return item[parts[0]];
-					}
-					return lookupItemByPath(item[parts[0]], parts.slice(1).join("."));
-				};
-			
-				this.rawItems.sort(function(a, b) {
-					var fieldA = lookupItemByPath(a, this.sorted);
-					var fieldB = lookupItemByPath(b, this.sorted);
-					if(typeof fieldA === 'number' || typeof fieldA === 'boolean') {
-						return this.sortDirection === 'ASC' ? fieldA - fieldB : fieldB - fieldA;
-					} else {
-						fieldA = fieldA.toLowerCase();
-						fieldB = fieldB.toLowerCase();
-						if (fieldA < fieldB) {
-							return this.sortDirection === 'ASC' ? -1 : 1;
-						}
-						if (fieldA > fieldB) {
-							return this.sortDirection === 'ASC' ? 1 : -1;
-						}
-					}
-					return 0;
-				}.bind(this));
+    },
+    observers: [
+      '_sortChanged(sorted,sortDirection)',
+      '_ramItemsChanged(rawItems.*)',
+      '_pageChanged(pageIndex, pageSize)'
+    ],
+    doSort: false,
+    _sortChanged: function(sorted, sortDirection) {
+      this.doSort = true;
+      this._updatePage();
+    },
+    _computeLength: function(rawItems) {
+      return this.rawItems.length;
+    },
+    _ramItemsChanged: function() {
+      this._updatePage();
+    },
+    _pageChanged: function(pageIndex, pageSize) {
+      this._updatePage();
+    },
+    _updatePage: function() {
 
-				this.doSort = false;
-			}
+      if(this.rawItems === undefined) {
+        return;
+      }
+      var start = (this.pageIndex * this.pageSize);
 
-			this.set('items', []);
-			for(var i = start; i < start + this.pageSize; i++) {
-				if(this.rawItems[i] !== undefined) {
-					this.push('items', this.rawItems[i]);
-				}
-			}
-		}
-	});
-	</script>
+      if(this.doSort && this.sorted) {
+        var lookupItemByPath = function(item, path) {
+          var parts = path.split(".");
+          if (parts.length === 1){
+            return item[parts[0]];
+          }
+          return lookupItemByPath(item[parts[0]], parts.slice(1).join("."));
+        };
+
+        this.rawItems.sort(function(a, b) {
+          var fieldA = lookupItemByPath(a, this.sorted);
+          var fieldB = lookupItemByPath(b, this.sorted);
+          if(typeof fieldA === 'number' || typeof fieldA === 'boolean') {
+            return this.sortDirection === 'ASC' ? fieldA - fieldB : fieldB - fieldA;
+          } else {
+            fieldA = fieldA.toLowerCase();
+            fieldB = fieldB.toLowerCase();
+            if (fieldA < fieldB) {
+              return this.sortDirection === 'ASC' ? -1 : 1;
+            }
+            if (fieldA > fieldB) {
+              return this.sortDirection === 'ASC' ? 1 : -1;
+            }
+          }
+          return 0;
+        }.bind(this));
+
+        this.doSort = false;
+      }
+
+      this.set('items', []);
+      for(var i = start; i < start + this.pageSize; i++) {
+        if(this.rawItems[i] !== undefined) {
+          this.push('items', this.rawItems[i]);
+        }
+      }
+    }
+  });
+  </script>
 </dom-module>

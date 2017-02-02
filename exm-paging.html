@@ -39,143 +39,143 @@ Custom property | Description | Default
 
 <dom-module id="exm-paging">
 
-	<style>
-		:host {
-			display: block;
-            @apply(--paper-font-common-base);
-            background: var(--exm-paging-background-color, none);
-            color: var(--exm-paging-text-color, rgba(0,0,0,.87));
-			font-size: 12px;
-			font-weight: 500;
-            height:56px;
-			padding:0px 6px;
-			border-top: 1px solid var(--exm-paging-border-top-divider-color, --divider-color);
-            @apply(--layout-horizontal);
-            @apply(--layout-end-justified);
-            @apply(--layout-center);
-            @apply(--exm-paging);
-		}
+  <style>
+    :host {
+      display: block;
+      @apply(--paper-font-common-base);
+      background: var(--exm-paging-background-color, none);
+      color: var(--exm-paging-text-color, rgba(0,0,0,.87));
+      font-size: 12px;
+      font-weight: 500;
+      height:56px;
+      padding:0px 6px;
+      border-top: 1px solid var(--exm-paging-border-top-divider-color, --divider-color);
+      @apply(--layout-horizontal);
+      @apply(--layout-end-justified);
+      @apply(--layout-center);
+      @apply(--exm-paging);
+    }
 
-        paper-dropdown-menu {
-			--paper-input-container-input: {
-				font-size: 12px;
-				font-weight: 500;
-			};
-			--paper-dropdown-menu: {
-				text-align: right;
-				width: 68px;
-			};
-			--paper-dropdown-menu-icon: {
-				color: var(--exm-paging-icon-color, rgba(0,0,0,.54));
-			};
-			--paper-icon-button: {
-				color: var(--exm-paging-icon-color, rgba(0,0,0,.54));
-			};
-			--paper-icon-button-disabled: {
-				color: var(--exm-paging-icon-disabled-color, rgba(0,0,0,.36));
-			};
-			--paper-input-container-underline-focus: { display: none; };
-			--paper-input-container-underline-disabled: { display: none; };
-			--paper-input-container-underline: { display: none; };
-		}
+    paper-dropdown-menu {
+    --paper-input-container-input: {
+      font-size: 12px;
+      font-weight: 500;
+    };
+    --paper-dropdown-menu: {
+      text-align: right;
+      width: 68px;
+    };
+    --paper-dropdown-menu-icon: {
+      color: var(--exm-paging-icon-color, rgba(0,0,0,.54));
+    };
+    --paper-icon-button: {
+      color: var(--exm-paging-icon-color, rgba(0,0,0,.54));
+    };
+    --paper-icon-button-disabled: {
+      color: var(--exm-paging-icon-disabled-color, rgba(0,0,0,.36));
+    };
+      --paper-input-container-underline-focus: { display: none; };
+      --paper-input-container-underline-disabled: { display: none; };
+      --paper-input-container-underline: { display: none; };
+    }
 
-        paper-icon-button {
-			margin: 0 4px;
-		}
+    paper-icon-button {
+    	margin: 0 4px;
+    }
 
-        .page-information {
-			margin: 0 20px 0 32px;
-            @apply(--exm-paging-page-information);
-		}
+    .page-information {
+      margin: 0 20px 0 32px;
+      @apply(--exm-paging-page-information);
+    }
 
-	</style>
+    </style>
 
-	<template>
-        <span>Rows per page:</span>
-        <paper-dropdown-menu no-label-float>
-            <paper-menu class="dropdown-content" selected="{{_pageSize}}" attr-for-selected="value">
-                <paper-item value="5">5</paper-item>
-                <paper-item value="10">10</paper-item>
-                <paper-item value="25">25</paper-item>
-                <paper-item value="50">50</paper-item>
-                <paper-item value="100">100</paper-item>
-            </paper-menu>
-        </paper-dropdown-menu>
-        <span class="page-information">
-            [[_pageInfoStart(pageIndex, pageSize)]]
-            -
-            [[_pageInfoEnd(pageIndex,pageSize,totalItems)]] of [[totalItems]]
-        </span>
-        <paper-icon-button icon="exm-icons:chevron-left" on-tap="previousPage" disabled="[[_isFirstPage(pageIndex)]]"></paper-icon-button>
-        <paper-icon-button icon="exm-icons:chevron-right" on-tap="nextPage" disabled="[[_isLastPage(pageIndex, pageSize, totalItems)]]"></paper-icon-button>
-	</template>
+    <template>
+      <span>Rows per page:</span>
+      <paper-dropdown-menu no-label-float>
+        <paper-menu class="dropdown-content" selected="{{_pageSize}}" attr-for-selected="value">
+          <paper-item value="5">5</paper-item>
+          <paper-item value="10">10</paper-item>
+          <paper-item value="25">25</paper-item>
+          <paper-item value="50">50</paper-item>
+          <paper-item value="100">100</paper-item>
+        </paper-menu>
+      </paper-dropdown-menu>
+      <span class="page-information">
+        [[_pageInfoStart(pageIndex, pageSize)]]
+        -
+        [[_pageInfoEnd(pageIndex,pageSize,totalItems)]] of [[totalItems]]
+      </span>
+      <paper-icon-button icon="exm-icons:chevron-left" on-tap="previousPage" disabled="[[_isFirstPage(pageIndex)]]"></paper-icon-button>
+      <paper-icon-button icon="exm-icons:chevron-right" on-tap="nextPage" disabled="[[_isLastPage(pageIndex, pageSize, totalItems)]]"></paper-icon-button>
+    </template>
 
-	<script>
-	Polymer({
-		is: 'exm-paging',
-		properties: {
+    <script>
+      Polymer({
+        is: 'exm-paging',
+        properties: {
 
-            /**
-            * Total items
-            */
-            totalItems: {
-                type: Number,
-                value: 0
-            },
+          /**
+          * Total items
+          */
+          totalItems: {
+            type: Number,
+            value: 0
+          },
 
-            /**
-            * This property can be used to change the current visible page
-            */
-            pageIndex: {
-                type: Number,
-                notify: true,
-                value: 0
-            },
+          /**
+          * This property can be used to change the current visible page
+          */
+          pageIndex: {
+            type: Number,
+            notify: true,
+            value: 0
+          },
 
-            /**
-            * Set the page size of the table. Valid options are 5/10/25/50/100
-            */
-            pageSize: {
-                type: Number,
-                notify: true,
-                computed: '_computePageSize(_pageSize)'
-            },
+          /**
+          * Set the page size of the table. Valid options are 5/10/25/50/100
+          */
+          pageSize: {
+            type: Number,
+            notify: true,
+            computed: '_computePageSize(_pageSize)'
+          },
 
-            _pageSize: {
-                type: String,
-                value: "10"
-            }
+          _pageSize: {
+            type: String,
+            value: "10"
+          }
 
-		},
+        },
 
         _computePageSize: function(_pageSize) {
-            return parseInt(_pageSize, 10);
+          return parseInt(_pageSize, 10);
         },
 
         _pageInfoStart: function(pageIndex, pageSize) {
-            return pageIndex * pageSize;
+          return pageIndex * pageSize;
         },
 
         _pageInfoEnd: function(pageIndex, pageSize, totalItems) {
-            var end = (pageIndex + 1) * pageSize;
-            return end < totalItems ? end : totalItems;
+          var end = (pageIndex + 1) * pageSize;
+          return end < totalItems ? end : totalItems;
         },
 
         _isFirstPage: function() {
-            return this.pageIndex < 1;
+          return this.pageIndex < 1;
         },
 
         _isLastPage: function() {
-            return ((this.pageIndex + 1) * this.pageSize) > this.totalItems;
+          return ((this.pageIndex + 1) * this.pageSize) > this.totalItems;
         },
 
         nextPage: function() {
-            this.pageIndex++;
+          this.pageIndex++;
         },
 
         previousPage: function() {
-            this.pageIndex--;
+          this.pageIndex--;
         }
-	});
-	</script>
+    	});
+    </script>
 </dom-module>

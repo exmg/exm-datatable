@@ -30,14 +30,14 @@
       table { width: 100%; }
       h2,
       .buttons {
-          width: 800px;
-          margin: 20px auto;
+        width: 800px;
+        margin: 20px auto;
       }
       paper-card {
-          display: block;
-          width: 800px;
-          margin: auto;
-          --paper-card-background-color: white;
+        display: block;
+        width: 800px;
+        margin: auto;
+        --paper-card-background-color: white;
       }
     </style>
   </head>
@@ -59,13 +59,13 @@
           </thead>
           <!-- Table TBODY -->
           <tbody is="exm-tbody" id="datatable" selection-enabled items='[[items]]'>
-              <template id="tbody">
-                <tr>
-                  <td>[[item.name]]</td>
-                  <td>[[item.email]]</td>
-                  <td>[[selected]]</td>
-                </tr>
-              </template>
+            <template id="tbody">
+              <tr>
+                <td>[[item.name]]</td>
+                <td>[[item.email]]</td>
+                <td>[[selected]]</td>
+              </tr>
+            </template>
           </tbody>
         </table>
       </paper-card>

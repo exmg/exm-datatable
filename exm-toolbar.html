@@ -10,15 +10,15 @@ selected items attribute.
 
 ```html
 <exm-toolbar selected-items="[[selectedItems]]">
-	<div id="default" class="horizontal layout center fit">
-		<div class="title-container">
-			<span>Admin Users</span>
-		</div>
-		<paper-icon-button icon="add" on-tap="_addItem"></paper-icon-button>
-	</div>
-	<div id="selected">
-		<paper-icon-button icon="delete" on-tap="_deleteItems"></paper-icon-button>
-	</div>
+  <div id="default" class="horizontal layout center fit">
+    <div class="title-container">
+      <span>Admin Users</span>
+    </div>
+    <paper-icon-button icon="add" on-tap="_addItem"></paper-icon-button>
+  </div>
+  <div id="selected">
+    <paper-icon-button icon="delete" on-tap="_deleteItems"></paper-icon-button>
+  </div>
 </exm-toolbar>
 <table is="exm-datatable">
   <tbody is="exm-tbody" items='[[items]]'>
@@ -45,130 +45,130 @@ Custom property | Description | Default
 
 <dom-module id="exm-toolbar">
 
-	<style>
-		:host {
-			display: block;
-            position: relative;
-			@apply(--paper-font-common-base);
-            background: var(--exm-toolbar-background-color, none);
-            color: var(--exm-toolbar-text-color, rgba(0,0,0,.87));
-			font-size: 20px;
-            height:64px;
-            @apply(--exm-toolbar);
-		}
+  <style>
+    :host {
+      display: block;
+      position: relative;
+      @apply(--paper-font-common-base);
+      background: var(--exm-toolbar-background-color, none);
+      color: var(--exm-toolbar-text-color, rgba(0,0,0,.87));
+      font-size: 20px;
+      height:64px;
+      @apply(--exm-toolbar);
+    }
 
-		::content #default {
-            @apply(--layout-horizontal);
-            @apply(--layout-center);
-			@apply(--layout-fit);
-        }
+    ::content #default {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      @apply(--layout-fit);
+    }
 
-        ::content .title-container{
-            @apply(--layout-flex);
-        }
-        .selected-message{
-			font-size:16px;
-		}
+    ::content .title-container{
+      @apply(--layout-flex);
+    }
+    .selected-message{
+      font-size:16px;
+    }
 
-		::content paper-button {
-			color: #418AF3;
-			font-size: 16px;
-		}
+    ::content paper-button {
+      color: #418AF3;
+      font-size: 16px;
+    }
 
-		#default-toolbar ::content #default,
-		#selected-toolbar {
-			padding:0px 12px 0px 24px;
-		}
-        #selected-toolbar {
-            @apply(--layout-horizontal);
-            @apply(--layout-center);
-            @apply(--layout-fit);
-		}
-		#selected-toolbar{
-			background: var(--exm-toolbar-selection-color, #E8EFFD);
-			transition: transform .1s linear;
-			transform: scale(1,0);
-			@apply(--exm-toolbar-selection);
-		}
-		#selected-toolbar[data-visible]{
-			transform: scale(1,1);
-		}
+    #default-toolbar ::content #default,
+    #selected-toolbar {
+      padding:0px 12px 0px 24px;
+    }
+    #selected-toolbar {
+      @apply(--layout-horizontal);
+      @apply(--layout-center);
+      @apply(--layout-fit);
+    }
+    #selected-toolbar{
+      background: var(--exm-toolbar-selection-color, #E8EFFD);
+      transition: transform .1s linear;
+      transform: scale(1,0);
+      @apply(--exm-toolbar-selection);
+    }
+    #selected-toolbar[data-visible]{
+      transform: scale(1,1);
+    }
 
-		#selected-toolbar > ::content paper-icon-button,
-		#selected-toolbar > ::content paper-icon,
-		#selected-toolbar > ::content iron-icon{
-			color: var(--exm-toolbar-selection-icon-color, rgba(0,0,0,.54));
-		}
-		::content .title-container{
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-		::content .title-container span{
-			width:100%;
-		}
-		::content paper-icon-button,
-        ::content paper-icon,
-        ::content iron-icon{
-			color: var(--exm-toolbar-icon-color, rgba(0,0,0,.87));
-		}
-	</style>
+    #selected-toolbar > ::content paper-icon-button,
+    #selected-toolbar > ::content paper-icon,
+    #selected-toolbar > ::content iron-icon{
+      color: var(--exm-toolbar-selection-icon-color, rgba(0,0,0,.54));
+    }
+    ::content .title-container{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    ::content .title-container span{
+      width:100%;
+    }
+    ::content paper-icon-button,
+    ::content paper-icon,
+    ::content iron-icon{
+      color: var(--exm-toolbar-icon-color, rgba(0,0,0,.87));
+    }
+  </style>
 
-	<template>
-        <div id="default-toolbar">
-            <content select="#default"></content>
-        </div>
-        <div id="selected-toolbar" data-visible$="[[_isSelectedToolbarVisible(_selectedRows)]]">
-            <div class="title-container">
-                <span>[[_selectedRows]]</span> item<template is="dom-if" if="[[_multipleItemsSelected(_selectedRows)]]">s</template> selected
-            </div>
-            <div class="toolbar" data-visible>
-                <content select="#selected"></content>
-            </div>
-        </div>
-	</template>
+  <template>
+    <div id="default-toolbar">
+      <content select="#default"></content>
+    </div>
+    <div id="selected-toolbar" data-visible$="[[_isSelectedToolbarVisible(_selectedRows)]]">
+      <div class="title-container">
+        <span>[[_selectedRows]]</span> item<template is="dom-if" if="[[_multipleItemsSelected(_selectedRows)]]">s</template> selected
+      </div>
+      <div class="toolbar" data-visible>
+        <content select="#selected"></content>
+      </div>
+    </div>
+  </template>
 
-	<script>
-	Polymer({
-		is: 'exm-toolbar',
-		properties: {
+  <script>
+  Polymer({
+    is: 'exm-toolbar',
+    properties: {
 
-			/**
-			 * Number of selected rows
-			 */
-			_selectedRows: {
-				type: Number,
-                value: 0
-			},
+      /**
+      * Number of selected rows
+      */
+      _selectedRows: {
+        type: Number,
+        value: 0
+      },
 
-            /**
-            * When `multiSelection` is true, this is an array that contains the selected items.
-            */
-            selectedItems: {
-                type: Object,
-            },
+      /**
+      * When `multiSelection` is true, this is an array that contains the selected items.
+      */
+      selectedItems: {
+        type: Object,
+      },
 
-		},
-        observers: [
-            '_selectedItemsChanged(selectedItems.*)'
-        ],
-		/**
-		* Triggered when selected items change
-		*/
-        _selectedItemsChanged: function(changes) {
-            if(changes.path === 'selectedItems') {
-                this.set('_selectedRows', changes.value === null ? 0 : Array.isArray(changes.value) ? changes.value.length : 1);
-            }
-            if(changes.path === 'selectedItems.length') {
-                this.set('_selectedRows', changes.value);
-            }
-        },
-		_isSelectedToolbarVisible: function() {
-			return this._selectedRows > 0 ? true : false;
-		},
-		_multipleItemsSelected: function() {
-			return this._selectedRows > 1 ? true : false;
-        }
-	});
-	</script>
+    },
+    observers: [
+      '_selectedItemsChanged(selectedItems.*)'
+    ],
+    /**
+    * Triggered when selected items change
+    */
+    _selectedItemsChanged: function(changes) {
+      if(changes.path === 'selectedItems') {
+        this.set('_selectedRows', changes.value === null ? 0 : Array.isArray(changes.value) ? changes.value.length : 1);
+      }
+      if(changes.path === 'selectedItems.length') {
+        this.set('_selectedRows', changes.value);
+      }
+    },
+    _isSelectedToolbarVisible: function() {
+      return this._selectedRows > 0 ? true : false;
+    },
+    _multipleItemsSelected: function() {
+      return this._selectedRows > 1 ? true : false;
+    }
+  });
+  </script>
 </dom-module>

@@ -2,36 +2,36 @@
 <html>
 <head>
 
-    <title>Full Table</title>
+  <title>Full Table</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
-    <link rel="import" href="../../polymer/polymer.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-ajax/iron-ajax.html">
-    <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
-    <link rel="import" href="../../paper-card/paper-card.html">
-    <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
-    <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-ajax/iron-ajax.html">
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="../../paper-card/paper-card.html">
+  <link rel="import" href="../../paper-toggle-button/paper-toggle-button.html">
+  <link rel="import" href="../../paper-icon-button/paper-icon-button.html">
 
-    <link rel="import" href="../exm-toolbar.html">
-    <link rel="import" href="../exm-datatable.html">
-    <link rel="import" href="../exm-thead.html">
-    <link rel="import" href="../exm-tbody.html">
-    <link rel="import" href="../exm-paging.html">
-    <link rel="import" href="../exm-data-helper.html">
-    <link rel="import" href="../exm-icons.html">
+  <link rel="import" href="../exm-toolbar.html">
+  <link rel="import" href="../exm-datatable.html">
+  <link rel="import" href="../exm-thead.html">
+  <link rel="import" href="../exm-tbody.html">
+  <link rel="import" href="../exm-paging.html">
+  <link rel="import" href="../exm-data-helper.html">
+  <link rel="import" href="../exm-icons.html">
 
-    <style>
-        body {
-            background: #eee;
-        }
-    </style>
+  <style>
+    body {
+      background: #eee;
+    }
+  </style>
 
 </head>
 
@@ -51,14 +51,14 @@
         }
         h2,
         .buttons {
-            width: 800px;
-            margin: 20px auto;
+          width: 800px;
+          margin: 20px auto;
         }
         paper-card {
-            display: block;
-            max-width: 800px;
-            margin: auto;
-            --paper-card-background-color: white;
+          display: block;
+          max-width: 800px;
+          margin: auto;
+          --paper-card-background-color: white;
         }
         .item.selected {
           background-color: #F5F5F5;
@@ -72,7 +72,7 @@
         <exm-toolbar selected-items="[[selectedItems]]">
           <div id="default" >
             <div class="title-container">
-                <span>Admin Users</span>
+              <span>Admin Users</span>
             </div>
             <paper-icon-button icon="exm-icons:add" on-tap="_addItem"></paper-icon-button>
           </div>
@@ -101,15 +101,15 @@
           </thead>
           <!-- Table TBODY -->
           <tbody is="exm-tbody" id="datatable" multi-selection="[[multiSelection]]" selection-enabled checkbox-used items='[[items]]' selected-items="{{selectedItems}}">
-              <template id="tbody">
-                <tr class$="[[_computedClass(selected)]]">
-                  <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>
-                  <td>[[item.name]]</td>
-                  <td>[[item.email]]</td>
-                  <td>[[item.city]]</td>
-                  <td>[[item.country]]</td>
-                </tr>
-              </template>
+            <template id="tbody">
+              <tr class$="[[_computedClass(selected)]]">
+                <td><paper-checkbox checked$="[[selected]]"></paper-checkbox></td>
+                <td>[[item.name]]</td>
+                <td>[[item.email]]</td>
+                <td>[[item.city]]</td>
+                <td>[[item.country]]</td>
+              </tr>
+            </template>
           </tbody>
         </table>
         <!-- Table Paging -->
@@ -131,35 +131,34 @@
 
       HTMLImports.whenReady(function() {
 
-          Polymer({
-            is: 'x-table',
-            properties: {
-              sorted: {
-                  type: String,
-                  value: 'name'
-              }
-            },
-            _computedClass: function(isSelected) {
-              var classes = 'item';
-              if (isSelected) {
-                classes += ' selected';
-              }
-              return classes;
-            },
-            _addItem: function() {
-              this.push('rawItems', { "name" : "Mark", "email" : "mark@test.com" });
-            },
-            _deleteItem: function(item) {
-              this.splice('rawItems', this.rawItems.indexOf(item), 1);
-            },
-            _deleteItems: function() {
-              var itemsToDelete =  Array.isArray(this.selectedItems) ? this.selectedItems : [this.selectedItems];
-              for(var i = 0; i < itemsToDelete.length; i++) {
-                 this._deleteItem(itemsToDelete[i]);
-              }
+        Polymer({
+          is: 'x-table',
+          properties: {
+            sorted: {
+              type: String,
+              value: 'name'
             }
-          });
-
+          },
+          _computedClass: function(isSelected) {
+            var classes = 'item';
+            if (isSelected) {
+              classes += ' selected';
+            }
+            return classes;
+          },
+          _addItem: function() {
+            this.push('rawItems', { "name" : "Mark", "email" : "mark@test.com" });
+          },
+          _deleteItem: function(item) {
+            this.splice('rawItems', this.rawItems.indexOf(item), 1);
+          },
+          _deleteItems: function() {
+            var itemsToDelete =  Array.isArray(this.selectedItems) ? this.selectedItems : [this.selectedItems];
+            for(var i = 0; i < itemsToDelete.length; i++) {
+              this._deleteItem(itemsToDelete[i]);
+            }
+          }
+        });
       });
 
     </script>
