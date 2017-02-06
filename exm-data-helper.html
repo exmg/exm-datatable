@@ -129,6 +129,8 @@
       if(this.rawItems === undefined) {
         return;
       }
+      /* Make sure to always start with same array to ensure consistency in sorting results */
+      var workArray = this.rawItems.slice();
       var start = (this.pageIndex * this.pageSize);
 
       if(this._doSort && this.sorted) {
@@ -140,7 +142,7 @@
           return lookupItemByPath(item[parts[0]], parts.slice(1).join("."));
         };
 
-        this.rawItems.sort(function(a, b) {
+        workArray.sort(function(a, b) {
           var fieldA = lookupItemByPath(a, this.sorted);
           var fieldB = lookupItemByPath(b, this.sorted);
           if(typeof fieldA === 'number' || typeof fieldA === 'boolean') {
@@ -163,8 +165,8 @@
 
       this.set('items', []);
       for(var i = start; i < start + this.pageSize; i++) {
-        if(this.rawItems[i] !== undefined) {
-          this.push('items', this.rawItems[i]);
+        if(workArray[i] !== undefined) {
+          this.push('items', workArray[i]);
         }
       }
     }
