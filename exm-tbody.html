@@ -226,7 +226,6 @@ Custom property | Description | Default
       * it will remove the listener otherwise.
       */
       _selectionEnabledChanged: function(selectionEnabled) {
-        console.log('_selectionEnabledChanged', selectionEnabled);
         var handler = selectionEnabled ? this.listen : this.unlisten;
         handler.call(this, this, 'tap', '_selectionHandler');
       },
@@ -235,14 +234,12 @@ Custom property | Description | Default
       */
       _selectionHandler: function(e) {
         var model = this.modelForElement(e.target);
-        console.log('_selectionHandler', e, e.target, model);
         if (!model) {
           return;
         }
         var modelTabIndex, activeElTabIndex;
         var target = Polymer.dom(e).path[0];
         var activeEl = Polymer.dom(this.domHost ? this.domHost.root : document).activeElement;
-         console.log('_selectionHandler2', model, this.indexAs, model[this.indexAs]);
         var physicalItem = this._physicalItems[model[this.indexAs]];
         // Safari does not focus certain form controls via mouse
         // https://bugs.webkit.org/show_bug.cgi?id=118043
@@ -269,7 +266,6 @@ Custom property | Description | Default
       * for notifying items.<key-for-instance>.<path> change up to host.
       */
       _forwardInstancePath: function(inst, path, value) {
-        console.log('_forwardInstancePath', inst, path, value);
         if (path.indexOf(this.as + '.') === 0) {
           this.notifyPath('items.' + inst.__key__ + '.' +
             path.slice(this.as.length + 1), value);
@@ -281,7 +277,6 @@ Custom property | Description | Default
       * notifying parent path change on each row.
       */
       _forwardParentProp: function(prop, value) {
-        console.log('_forwardParentProp', prop, value);
         if (this._physicalItems) {
           this._physicalItems.forEach(function(item) {
             item._templateInstance[prop] = value;
@@ -294,7 +289,6 @@ Custom property | Description | Default
       * notifying parent.<path> path change on each row.
       */
       _forwardParentPath: function(path, value) {
-        console.log('_forwardParentPath', path, value);
         if (this._physicalItems) {
           this._physicalItems.forEach(function(item) {
             item._templateInstance.notifyPath(path, value, true);
@@ -307,7 +301,6 @@ Custom property | Description | Default
       * @param {number} size Size of the pool
       */
       _createPool: function(size) {
-        console.log('_createPool',size);
         var physicalItems = new Array(size);
         this._ensureTemplatized();
         for (var i = 0; i < size; i++) {
@@ -323,11 +316,9 @@ Custom property | Description | Default
       * Increases the pool size.
       */
       _increasePool: function(poolSize) {
-        console.log('_increasePool',poolSize);
         var ts = window.performance.now();
         // Concat arrays in place.
         [].push.apply(this._physicalItems, this._createPool(poolSize));
-        console.log('after', this._physicalItems);
         this._physicalCount = this._physicalItems.length;
         this._update();
         this._templateCost = (window.performance.now() - ts);
@@ -337,7 +328,6 @@ Custom property | Description | Default
       * Templetizes the user template.
       */
       _ensureTemplatized: function() {
-        console.log('_ensureTemplatized', this.ctor);
         // Check if already templatized
         if (!this.ctor) {
           // Template instance props that should be excluded from forwarding
@@ -349,10 +339,8 @@ Custom property | Description | Default
           props.tabIndex = true;
           this._instanceProps = props;
           this._userTemplate = Polymer.dom(this).querySelector('template#tbody');
-          //console.log('_userTemplate',  this._userTemplate);
           if (this._userTemplate) {
             this.templatize(this._userTemplate);
-           // console.log('_userTemplate', this._userTemplate);
           } else {
             console.warn('exm-tbody requires a template to be provided in light-dom');
           }
@@ -363,7 +351,6 @@ Custom property | Description | Default
       * to `items`, splices or updates to a single item.
       */
       _itemsChanged: function(change) {
-        //console.log('_itemsChanged', change, this.items);
         if (change.path === 'items') {
           this.items = this.items || [];
           this._collection = this.items ? Polymer.Collection.get(this.items) : null;
@@ -387,7 +374,6 @@ Custom property | Description | Default
       * Renders the a new list.
       */
       _render: function() {
-        console.log('_render', this.isAttached, this._physicalCount);
         if (this.isAttached) {
           if (this._physicalCount === 0) {
             this._increasePool(this.items.length);
@@ -405,7 +391,6 @@ Custom property | Description | Default
       * @param {!Array<number>=} itemSet
       */
       _update: function(itemSet) {
-        console.log('_update', itemSet);
         if (itemSet && itemSet.length === 0) {
           return;
         }
@@ -416,10 +401,8 @@ Custom property | Description | Default
       * @param {!Array<number>=} itemSet
       */
       _assignModels: function(itemSet) {
-        console.log('_assignModels', itemSet);
         var count = 0;
         this._physicalItems.forEach(function(el) {
-          //console.log('each', el, el._templateInstance);
           var inst = el._templateInstance;
           var item = this.items[count];
           if (item != null) {
@@ -438,14 +421,12 @@ Custom property | Description | Default
       },
       _getModelFromItem: function(item) {
         var key = this._collection.getKey(item);
-        console.log('_getModelFromItem', key, this._physicalItems);
         if (key != null) {
           return this._physicalItems[key.substring(1)]._templateInstance;
         }
         return null;
       },
       _forwardItemPath: function(path, value) {
-       // console.log('_forwardItemPath key ', path, value);
         var dot = path.indexOf('.');
         var key = path.substring(0, dot < 0 ? path.length : dot);
         var idx = key.substring(1);
@@ -479,7 +460,6 @@ Custom property | Description | Default
       * @param {(Object|number)} item The item object or its index
       */
       selectItem: function(item) {
-        console.log('selectItem', item);
         item = this._getNormalizedItem(item);
         var model = this._getModelFromItem(item);
         if (!this.multiSelection && this.selectedItem) {
@@ -497,7 +477,6 @@ Custom property | Description | Default
       * @param {(Object|number)} item The item object or its index
       */
       deselectItem: function(item) {
-        console.log('deselectItem', item);
         item = this._getNormalizedItem(item);
         var model = this._getModelFromItem(item);
         if (model) {
@@ -513,7 +492,6 @@ Custom property | Description | Default
       * @param {(Object|number)} item The item object or its index
       */
       toggleSelectionForItem: function(item) {
-        console.log('toggleSelectionForItem', item);
         item = this._getNormalizedItem(item);
         if (/** @type {!ArraySelectorElement} */ (this.$.selector).isSelected(item)) {
           this.deselectItem(item);
@@ -527,7 +505,6 @@ Custom property | Description | Default
       * @param {(Object|number)} item The item object or its index
       */
       _getNormalizedItem: function(item) {
-         console.log('_getNormalizedItem', this._collection);
         if (this._collection.getKey(item) === undefined) {
           if (typeof item === 'number') {
             item = this.items[item];

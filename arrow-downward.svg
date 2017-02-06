@@ -4,5 +4,5 @@
 	 x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
 <defs>
 </defs>
-<polygon points="0,12.4 12,24 24,12.4 21.8,10.3 13.5,18.3 13.5,0 10.5,0 10.5,18.3 2.2,10.3 "/>
+<g id="arrow-upward"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></g>
 </svg>
