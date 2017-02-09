@@ -1,8 +1,15 @@
 exm-datatable [![Build Status](https://travis-ci.org/exmg/exm-datatable.svg?branch=master)](https://travis-ci.org/exmg/exm-datatable)
 ================
 
-Paper(Material design) style data table
 Material design datatable. Please visit the [API Documentation and demo](http://exmg.github.io/exm-datatable/) page for more information.
+
+Supports:
+ - Paper(Material design) style data table
+ - Flexible setup by extending standard table/thead/tbody elements
+ - Configurable toolbar
+ - Paging
+ - Sorting/filtering helper elements
+ - Easily create collapsible rows 
 
 ## Install
 
