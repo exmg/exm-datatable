@@ -40,9 +40,9 @@
         tbody.items = buildDataSet(30);
 
         flush(function() {
-        
-          paging._pageSize = 25;
-        
+
+          paging.pageSize = 25;
+
           var menu = Polymer.dom(paging.root).querySelector('.dropdown-content');
 
           assert.equal(menu.selected, 25);
