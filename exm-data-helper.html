@@ -119,6 +119,7 @@
       return this.rawItems.length;
     },
     _ramItemsChanged: function() {
+      this._doSort = true;
       this._updatePage();
     },
     _pageChanged: function(pageIndex, pageSize) {
