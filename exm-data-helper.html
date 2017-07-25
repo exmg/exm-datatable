@@ -149,8 +149,8 @@
           if(typeof fieldA === 'number' || typeof fieldA === 'boolean') {
             return this.sortDirection === 'ASC' ? fieldA - fieldB : fieldB - fieldA;
           } else {
-            fieldA = fieldA.toLowerCase();
-            fieldB = fieldB.toLowerCase();
+            fieldA = fieldA ? fieldA.toLowerCase() : '';
+            fieldB = fieldB ? fieldB.toLowerCase() : '';
             if (fieldA < fieldB) {
               return this.sortDirection === 'ASC' ? -1 : 1;
             }
