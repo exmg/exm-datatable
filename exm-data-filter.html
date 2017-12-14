@@ -91,7 +91,8 @@
       var filterFields = this.filterFields.split(',');
       for(var i = 0; i < this.rawItems.length; i++) {
           for(var j = 0; j < filterFields.length; j++) {
-              if(this.rawItems[i][filterFields[j].trim()].toLowerCase().indexOf(this.filterValue.toLowerCase()) !== -1){
+              if(this.rawItems[i][filterFields[j].trim()] && this.rawItems[i][filterFields[j].trim()].toLowerCase()
+                .indexOf(this.filterValue.toLowerCase()) !== -1){
                   items.push(this.rawItems[i]);
                   break;
               }
