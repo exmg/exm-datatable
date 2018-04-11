@@ -110,66 +110,51 @@
       '_ramItemsChanged(rawItems.*)',
       '_pageChanged(pageIndex, pageSize)'
     ],
-    _doSort: false,
     _sortChanged: function(sorted, sortDirection) {
-      this._doSort = true;
       this._updatePage();
     },
     _computeLength: function(rawItems) {
       return this.rawItems.length;
     },
     _ramItemsChanged: function() {
-      this._doSort = true;
       this._updatePage();
     },
     _pageChanged: function(pageIndex, pageSize) {
       this._updatePage();
     },
     _updatePage: function() {
+      const lookupValueByPath = (o, path) => path.split('.').reduce((r, p) => r[p], o);
+      const isArray = (o) => Array.isArray(o) || Object.prototype.toString.call(o) === '[object Array]';
+      const properArray = (o) => {
+        return isArray(o) ? o : [];
+      };
 
-      if(this.rawItems === undefined) {
-        return;
+      const workArray = [...properArray(this.rawItems)];
+      const start = (this.pageIndex * this.pageSize);
+      const sortArray = (a, b) => {
+        let fieldA = lookupValueByPath(a, this.sorted);
+        let fieldB = lookupValueByPath(b, this.sorted);
+        if (typeof fieldA === 'number' || typeof fieldA === 'boolean') {
+          return this.sortDirection === 'ASC' ? fieldA - fieldB : fieldB - fieldA;
+        } else {
+          fieldA = fieldA ? fieldA.toLowerCase() : '';
+          fieldB = fieldB ? fieldB.toLowerCase() : '';
+          if (fieldA < fieldB) {
+            return this.sortDirection === 'ASC' ? -1 : 1;
+          }
+          if (fieldA > fieldB) {
+            return this.sortDirection === 'ASC' ? 1 : -1;
+          }
+        }
+        return 0;
       }
-      /* Make sure to always start with same array to ensure consistency in sorting results */
-      var workArray = this.rawItems.slice();
-      var start = (this.pageIndex * this.pageSize);
 
-      if(this._doSort && this.sorted) {
-        var lookupItemByPath = function(item, path) {
-          var parts = path.split(".");
-          if (parts.length === 1){
-            return item[parts[0]];
-          }
-          return lookupItemByPath(item[parts[0]], parts.slice(1).join("."));
-        };
-
-        workArray.sort(function(a, b) {
-          var fieldA = lookupItemByPath(a, this.sorted);
-          var fieldB = lookupItemByPath(b, this.sorted);
-          if(typeof fieldA === 'number' || typeof fieldA === 'boolean') {
-            return this.sortDirection === 'ASC' ? fieldA - fieldB : fieldB - fieldA;
-          } else {
-            fieldA = fieldA ? fieldA.toLowerCase() : '';
-            fieldB = fieldB ? fieldB.toLowerCase() : '';
-            if (fieldA < fieldB) {
-              return this.sortDirection === 'ASC' ? -1 : 1;
-            }
-            if (fieldA > fieldB) {
-              return this.sortDirection === 'ASC' ? 1 : -1;
-            }
-          }
-          return 0;
-        }.bind(this));
-
-        this._doSort = false;
+      if (this.sorted) {
+        workArray.sort((a, b) => sortArray(a, b));
       }
 
       this.set('items', []);
-      for(var i = start; i < start + this.pageSize; i++) {
-        if(workArray[i] !== undefined) {
-          this.push('items', workArray[i]);
-        }
-      }
+      this.set('items', workArray.slice(start, start + this.pageSize));
     }
   });
   </script>
